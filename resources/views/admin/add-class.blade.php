@@ -21,28 +21,55 @@
 
 
 
-        <h1 class="add-class">إضافة فئة</h1>
+    <h1 class="add-class">add calss</h1>
+
+    <form action="" method="">
+
+        <label for="majors">add major</label>
+        <input type="text" id="major" name="major">
     
-        <label for="majors">إضافة تخصصات</label>
-        <input type="text" id="majors" name="majors">
-    
-        <label for="class-names">أسماء الصفوف:</label>
+        <br>
+        <br>
+
+        <label for="class-names">name calss</label>
         <select id="class-names" name="class-names">
-            <option value="1">الصف 1</option>
-            <option value="2">الصف 2</option>
-            <!-- ... تكرار الخيارات للصفوف الأخرى -->
-            <option value="12">الصف 12</option>
+            {{-- ['ClassOne','ClassTow','ClassThree','ClassFour','Classfive','ClassSix','ClassSeven','ClassEight','ClassNine','ClassTen','ClassTwelfth','ClassThirteenth'] --}}
+            <option value="ClassOne">ClassOne</option>
+            <option value="ClassTow">ClassTow</option>
+            <option value="ClassThree">ClassThree</option>
+            <option value="ClassFour">ClassFour</option>
+            <option value="Classfive">Classfive</option>
+            <option value="ClassSix">ClassSix</option>
+            <option value="ClassSeven">ClassSeven</option>
+            <option value="ClassEight">ClassEight</option>
+            <option value="ClassNine">ClassNine</option>
+            <option value="ClassTen">ClassTen</option>
+            <option value="ClassTwelfth">ClassTwelfth</option>
+            <option value="ClassThirteenth">ClassThirteenth</option>
         </select>
-    
-        <label for="numbers">الأرقام من 1 إلى 10:</label>
+        
+        <br>
+        <br>
+
+        <label for="numbers">division</label>
         <select id="numbers" name="numbers">
             <option value="1">1</option>
             <option value="2">2</option>
-            <!-- ... تكرار الخيارات للأرقام الأخرى -->
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
             <option value="10">10</option>
         </select>
-    
 
+        <br>
+        <br>
+        <button class="btn bsb-btn-xl btn-primary py-3" type="submit">add calss</button>
+
+    </form>
 
 
 

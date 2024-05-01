@@ -10,9 +10,9 @@ use App\Http\Controllers\mentor\DashbosrdController as MentorDashbosrdController
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 
 
@@ -28,7 +28,7 @@ Route::get('/', function () {
 
 //All
 Route::group(['middleware' => 'admin.guest'],function(){    
-    Route::get('login', [LoginController::class,'index'])->name('login');
+    Route::get('', [LoginController::class,'index'])->name('login');
     Route::post('authenticate', [LoginController::class,'authenticate'])->name('authenticate');
 
 });
@@ -41,7 +41,8 @@ Route::group(['middleware' => 'admin.guest'],function(){
 //Admin
 Route::group(['prefix' => 'admin'],function(){
     Route::group(['middleware' => 'admin.auth'],function(){
-        Route::get('dashbosrd',[AdminDashbosrdController::class,'index'])->name('admin.dashboard');
+Route::get('dashbosrd',[AdminDashbosrdController::class,'index'])->name('admin.dashboard');
+
         //Add Secretary
         Route::get('/showallsecretary', [AdminController::class,'showallsecretary'])->name('admin.showallsecretary');
         Route::get('/addsecretary', [AdminController::class,'addsecretary'])->name('admin.addsecretary');
@@ -51,6 +52,7 @@ Route::group(['prefix' => 'admin'],function(){
         Route::get('/showallteacher', [AdminController::class,'showallteacher'])->name('admin.showallteacher');
         Route::get('/addteacher', [AdminController::class,'addteacher'])->name('admin.addteacher');
         Route::post('/processaddteacher', [AdminController::class,'processaddteacher'])->name('admin.processaddteacher');
+        
         //Add Mentor
         Route::get('/showallmentor', [AdminController::class,'showallmentor'])->name('admin.showallmentor');
         Route::get('/addmentor', [AdminController::class,'addmentor'])->name('admin.addmentor');
@@ -74,8 +76,12 @@ Route::group(['prefix' => 'admin'],function(){
 Route::group(['prefix' => 'secretary'],function(){
     Route::group(['middleware' => 'secretary.auth'],function(){
         Route::get('/dashbosrd',[SecretaryDashbosrdController::class,'index'])->name('secretary.dashbosrd');
+        //Add Student
+        Route::get('/addStudent',[SecretaryDashbosrdController::class,'addStudent'])->name('secretary.addStudent');
+        Route::post('/processAddStudent',[SecretaryDashbosrdController::class,'processAddStudent'])->name('processAddStudent');
     });
 });
+
 
 //Teacher
 Route::group(['prefix' => 'teacher'],function(){
@@ -98,24 +104,3 @@ Route::group(['prefix' => 'mentor'],function(){
 
 
 
-
-
-//ex
-// Route::group(['prefix' => 'admin'],function(){
-//     //all customer
-//     Route::group(['middleware' => 'admin.guest'],function(){
-//         Route::get('login', [AdminLoginController::class,'index'])->name('admin.login');
-//         Route::post('authenticate', [AdminLoginController::class,'authenticate2'])->name('admin.authenticate');
-
-//     });
-    
-    
-    
-//     //auth
-//     Route::group(['middleware' => 'admin.auth'],function(){
-//         Route::get('dashboard', [AdminDashboardController::class,'index'])->name('admin.dashboard');
-//         Route::get('logout', [AdminLoginController::class,'logout'])->name('admin.logout');
-
-//     });
-
-// });

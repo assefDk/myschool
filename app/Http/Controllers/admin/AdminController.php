@@ -5,7 +5,10 @@ namespace App\Http\Controllers\admin;
 use App\Models\Mentor;
 use App\Models\Teacher;
 use App\Models\Secretary;
+use App\Models\Division;
+use App\Models\Major;
 use App\Models\TheClass;
+
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -201,7 +204,11 @@ class AdminController extends Controller
 
     //add class
     public function addclass(){
-        return view("admin.add-class");
+        $dv =  Division::all();
+        $cl = TheClass::all();
+
+
+        return view("admin.add-class",compact('dv','cl'));
     }    
     public function showallclass(){
         $classes = DB::select('select * from  the_classes c,divisions d, majors m
@@ -210,8 +217,13 @@ class AdminController extends Controller
         and c.ClassId = d.ClassId 
         ');
 
+
+        // the_classes::where('');
+
+
         return view('admin.show-all-class',compact('classes'));
     }    
+
 
 
 }
