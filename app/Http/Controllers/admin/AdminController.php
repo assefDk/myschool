@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use Carbon\Carbon;
 use App\Models\Mentor;
 use App\Models\Teacher;
 use App\Models\Secretary;
@@ -204,12 +205,88 @@ class AdminController extends Controller
 
     //add class
     public function addclass(){
-        $dv =  Division::all();
-        $cl = TheClass::all();
+        // $dv =  Division::all();
+        // $cl = TheClass::all();
 
-
-        return view("admin.add-class",compact('dv','cl'));
+        return view("admin.add-class");
     }    
+    public function processClass(Request $request){
+        
+        $tm = 0;
+        $theMajor = [];
+        
+        foreach (Major::all() as $m){
+            if($request->majorname == $m->name){
+                $tm = 1;
+                $theMajor = $m;
+            }
+        }
+        
+        if($tm == 0){
+            DB::table('majors')
+            ->insert([
+                'name'=> $request->majorname,
+                'created_at'=> Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+             //اخز اخر قيمة تم ادخالها
+            $theMajor = DB::table('majors')->latest()->first();
+        }
+        // /__________________________________/
+
+
+        $tc = 0;
+        $theclass = [];
+        foreach (TheClass::all() as $c){
+
+            if($request->get('ClassName') == $c->ClassName){
+                $tc = 1;
+                $theclass = $c;
+            }
+        }
+
+        if($tc == 0){
+            DB::table('the_classes')->insert([
+                'ClassName' => $request->get('ClassName'),
+                'MajorId' => $theMajor->MajorId,
+                'created_at'=> Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+            //اخز اخر قيمة تم ادخالها
+            $theclass = DB::table('the_classes')->latest()->first();
+        }
+
+        // /____________________________________
+
+
+        $td = 0;
+
+        foreach (TheClass::all() as $c){
+            foreach (Division::all() as $d){
+                if($request->get('division') == $d->Numberdvs && $d->ClassId == $c->ClassId){
+                    $td = 1;
+                    return redirect()->route("admin.dashboard")->with('error','The class exists');
+                }
+            }
+        }
+
+
+
+        if($td == 0){
+            DB::table('divisions')->insert([
+                'Numberdvs' => $request->get('division'),
+                'ClassId' => $theclass->ClassId,
+                'WeeklySchedule' => 'noWeeklyScheduleNow',
+                'created_at'=> Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+        }
+
+        return redirect()->route("admin.dashboard")->with('success','Added successfully class');
+    }
+
+
+
     public function showallclass(){
         $classes = DB::select('select * from  the_classes c,divisions d, majors m
         where 
@@ -217,12 +294,9 @@ class AdminController extends Controller
         and c.ClassId = d.ClassId 
         ');
 
-
-        // the_classes::where('');
-
-
         return view('admin.show-all-class',compact('classes'));
     }    
+
 
 
 

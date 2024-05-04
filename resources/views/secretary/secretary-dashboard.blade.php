@@ -30,9 +30,9 @@
                             <a class="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello</a>
                             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">                          
                                 <li>
-                                    {{-- <a class="dropdown-item" href="{{route('admin.logout')}}">Logout</a> --}}
+                                    <a class="dropdown-item" href="{{route('secretary.logout')}}">Logout</a>
                                     {{-- <a class="dropdown-item" href="{{route('logout')}}">Logout</a> --}}
-                                    <a class="dropdown-item" href="">Logout</a>
+                                    {{-- <a class="dropdown-item" href="">Logout</a> --}}
                                 </li>
                             </ul>
                         </li>

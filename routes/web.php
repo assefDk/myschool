@@ -19,19 +19,16 @@ use App\Http\Controllers\mentor\DashbosrdController as MentorDashbosrdController
 
 
 
-// Route::get('login', [LoginController::class,'index'])->name('login');
-// Route::post('authenticate', [LoginController::class,'authenticate'])->name('authenticate');
-
 
 
 
 
 //All
-Route::group(['middleware' => 'admin.guest'],function(){    
-    Route::get('', [LoginController::class,'index'])->name('login');
+// Route::group(['middleware' => 'admin.guest'],function(){    
+    Route::get('/', [LoginController::class,'index'])->name('login');
     Route::post('authenticate', [LoginController::class,'authenticate'])->name('authenticate');
+// });
 
-});
 
 
 
@@ -41,12 +38,15 @@ Route::group(['middleware' => 'admin.guest'],function(){
 //Admin
 Route::group(['prefix' => 'admin'],function(){
     Route::group(['middleware' => 'admin.auth'],function(){
-Route::get('dashbosrd',[AdminDashbosrdController::class,'index'])->name('admin.dashboard');
+        Route::get('dashbosrd',[AdminDashbosrdController::class,'index'])->name('admin.dashboard');
 
         //Add Secretary
         Route::get('/showallsecretary', [AdminController::class,'showallsecretary'])->name('admin.showallsecretary');
         Route::get('/addsecretary', [AdminController::class,'addsecretary'])->name('admin.addsecretary');
         Route::post('/processaddsecretary', [AdminController::class,'processaddsecretary'])->name('admin.processaddsecretary');
+    
+
+        
 
         //Add Teacher
         Route::get('/showallteacher', [AdminController::class,'showallteacher'])->name('admin.showallteacher');
@@ -61,6 +61,7 @@ Route::get('dashbosrd',[AdminDashbosrdController::class,'index'])->name('admin.d
         //Add Class
         Route::get('addclass',[AdminController::class,'addclass'])->name('admin.add-class');
         Route::get('showallclass',[AdminController::class,'showallclass'])->name('admin.showallclass');
+        Route::post('processClass',[AdminController::class,'processClass'])->name('admin.processClass');
 
 
 
@@ -76,6 +77,7 @@ Route::get('dashbosrd',[AdminDashbosrdController::class,'index'])->name('admin.d
 Route::group(['prefix' => 'secretary'],function(){
     Route::group(['middleware' => 'secretary.auth'],function(){
         Route::get('/dashbosrd',[SecretaryDashbosrdController::class,'index'])->name('secretary.dashbosrd');
+        Route::get('/logout', [SecretaryDashbosrdController::class,'logout'])->name('secretary.logout');
         //Add Student
         Route::get('/addStudent',[SecretaryDashbosrdController::class,'addStudent'])->name('secretary.addStudent');
         Route::post('/processAddStudent',[SecretaryDashbosrdController::class,'processAddStudent'])->name('processAddStudent');

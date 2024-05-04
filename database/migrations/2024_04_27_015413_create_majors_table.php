@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name')->unique()->default("General");
             
 
+            
+
             $table->timestamps();
         });
     }

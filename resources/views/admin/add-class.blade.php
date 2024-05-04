@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>add teacher</title>
+    <title>add class</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 <br>
@@ -23,18 +23,19 @@
 
     <h1 class="add-class">add calss</h1>
 
-    <form action="" method="">
+    <form action="{{Route('admin.processClass')}}" method="post">
+        @csrf
 
         <label for="majors">add major</label>
-        <input type="text" id="major" name="major">
+        <input type="text" value="General" id="majorname" name="majorname">
     
         <br>
         <br>
 
-        <label for="class-names">name calss</label>
-        <select id="class-names" name="class-names">
-            {{-- ['ClassOne','ClassTow','ClassThree','ClassFour','Classfive','ClassSix','ClassSeven','ClassEight','ClassNine','ClassTen','ClassTwelfth','ClassThirteenth'] --}}
-            <option value="ClassOne">ClassOne</option>
+        <label for="ClassName">name calss</label>
+
+        <select id="ClassName" name="ClassName">
+            <option value="ClassOne">ClassOne</option> 
             <option value="ClassTow">ClassTow</option>
             <option value="ClassThree">ClassThree</option>
             <option value="ClassFour">ClassFour</option>
@@ -45,14 +46,14 @@
             <option value="ClassNine">ClassNine</option>
             <option value="ClassTen">ClassTen</option>
             <option value="ClassTwelfth">ClassTwelfth</option>
-            <option value="ClassThirteenth">ClassThirteenth</option>
+            <option value="ClassThirteenth">ClassThirteenth</option> 
         </select>
         
         <br>
         <br>
 
-        <label for="numbers">division</label>
-        <select id="numbers" name="numbers">
+        <label for="division">division</label>
+        <select id="division" name="division">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>

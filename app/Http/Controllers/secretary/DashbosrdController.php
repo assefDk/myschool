@@ -14,6 +14,13 @@ class DashbosrdController extends Controller
     public function index(){
         return view('secretary.secretary-dashboard');
     }
+
+    public function logout(){
+        Auth::guard('secretary')->logout();
+        
+        return redirect()->route('login');
+    }
+
     public function addStudent(){
         return view('secretary.add-student');
     }

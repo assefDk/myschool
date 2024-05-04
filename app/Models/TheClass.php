@@ -9,15 +9,19 @@ class TheClass extends Model
 {
     use HasFactory;
 
+
+    protected $guarded = [ ];
     protected $fillable = [
         'ClassId',
         'ClassName',
+        // 'MajorId',
+        // 'name',
     ];
 
 
-    public function Section()
+    public function Major()
     {
-        return $this->hasMany(Major::class);
+        return $this->hasMany(Major::class , 'MajorId');
     }  
     
 
@@ -27,4 +31,15 @@ class TheClass extends Model
     }  
     
 
+
+ 
+    
+
 }
+   
+        // protected $fillable = ['ClassName', 'MajorId', 'name'];
+    
+        // public function major()
+        // {
+        //     return $this->belongsTo(Major::class, 'MajorId');
+        // }

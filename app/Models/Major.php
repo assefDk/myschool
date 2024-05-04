@@ -12,6 +12,8 @@ class Major extends Model
 
     protected $fillable = [
         'name',
+        'ClassName', 
+        'MajorId'
     ];
 
 
@@ -19,9 +21,7 @@ class Major extends Model
 
     public function TheClass() 
     {
-        return $this->belongsTo(TheClass::class);
+        return $this->belongsTo(TheClass::class,'ClassId');
     }  
 
-
-    
 }

@@ -20,6 +20,8 @@ class AdminAuthenticate
         if(!Auth::guard('secretary')->check()){
             return redirect()->route('login');
         }
+
+        
         
 
         return $next($request);

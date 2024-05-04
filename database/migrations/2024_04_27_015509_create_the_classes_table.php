@@ -14,14 +14,13 @@ return new class extends Migration
         Schema::create('the_classes', function (Blueprint $table) {
             $table->id('ClassId');
             $table->enum('ClassName',['ClassOne','ClassTow','ClassThree','ClassFour','Classfive','ClassSix','ClassSeven','ClassEight','ClassNine','ClassTen','ClassTwelfth','ClassThirteenth']);
-            // $table->enum('level',[1,2,3,4,5,6,7,8,9,10,11,12]);
+            $table->foreignId('MajorId')->references('MajorId')->on('majors');
+            $table->timestamps();
+        });
+        // $table->enum('level',[1,2,3,4,5,6,7,8,9,10,11,12]);
             // $table->enum('TypeClass', ['primary','Thanori','preparatory','professional','womanly','commercial']);
             
             // $table->enum('TypeClass', ['primary','Thanori','preparatory','professional','womanly','commercial']);
-            $table->foreignId('MajorId')->references('MajorId')->on('majors');
-
-            $table->timestamps();
-        });
     }
 
     /**
