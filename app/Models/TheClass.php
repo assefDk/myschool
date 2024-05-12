@@ -30,13 +30,18 @@ class TheClass extends Model
         return $this->belongsTo(Division::class);
     }  
     
+    // public function Student() 
+    // {
+    //     return $this->belongsTo(Student::class);
+    // } 
+    
 
 
- 
+
     
 
 }
-   
+
         // protected $fillable = ['ClassName', 'MajorId', 'name'];
     
         // public function major()

@@ -17,10 +17,6 @@ return new class extends Migration
             $table->foreignId('MajorId')->references('MajorId')->on('majors');
             $table->timestamps();
         });
-        // $table->enum('level',[1,2,3,4,5,6,7,8,9,10,11,12]);
-            // $table->enum('TypeClass', ['primary','Thanori','preparatory','professional','womanly','commercial']);
-            
-            // $table->enum('TypeClass', ['primary','Thanori','preparatory','professional','womanly','commercial']);
     }
 
     /**
@@ -30,4 +26,10 @@ return new class extends Migration
     {
         Schema::dropIfExists('the_classes');
     }
+
+
+    // $table->enum('level',[1,2,3,4,5,6,7,8,9,10,11,12]);
+    // $table->enum('TypeClass', ['primary','Thanori','preparatory','professional','womanly','commercial']);
+    
+    // $table->enum('TypeClass', ['primary','Thanori','preparatory','professional','womanly','commercial']);
 };

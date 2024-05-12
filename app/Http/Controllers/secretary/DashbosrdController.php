@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\secretary;
 
-use App\Http\Controllers\Controller;
+use App\Models\Student;
+use App\Models\Division;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Student;
 
 class DashbosrdController extends Controller
 {
@@ -22,8 +24,57 @@ class DashbosrdController extends Controller
     }
 
     public function addStudent(){
-        return view('secretary.add-student');
+        $Majors = DB::select('select * from majors');
+
+        // $Classes = DB::select('select * from the_classes');
+
+        // $Divisions = DB::select('select * from divisions');
+
+        return view('secretary.add-student' ,compact('Majors'));
     }
+
+
+    public function fetchClass($MajorId){
+        $Classes = DB::select('select * from the_classes where MajorId = ?', [$MajorId]);
+
+
+
+        return response()->json([
+            'status' => 1,
+            'Classes' => $Classes
+        ]);
+
+    }
+
+    public function fetchDivision($ClassId){
+        $division = DB::select('select * from divisions where ClassId = ?', [$ClassId]);
+
+        return response()->json([
+            'status' => 1,
+            'Division' => $division
+        ]);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public function processAddStudent(Request $request){
@@ -72,10 +123,4 @@ class DashbosrdController extends Controller
 
         } 
 
-
-
-
-
-
-    
 }

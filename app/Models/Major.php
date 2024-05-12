@@ -12,7 +12,6 @@ class Major extends Model
 
     protected $fillable = [
         'name',
-        'ClassName', 
         'MajorId'
     ];
 

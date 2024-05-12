@@ -148,6 +148,14 @@
 
 
 
+                <br>
+
+                <div class="d-flex justify-content-center">
+                    <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('admin.addAnnouncment')}}"> add announcment</a>
+                </div>
+
+
+
             
                 {{-- <h1>bvds</h1> --}}
                 

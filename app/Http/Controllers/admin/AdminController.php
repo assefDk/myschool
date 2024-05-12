@@ -210,6 +210,7 @@ class AdminController extends Controller
 
         return view("admin.add-class");
     }    
+
     public function processClass(Request $request){
         
         $tm = 0;
@@ -234,15 +235,53 @@ class AdminController extends Controller
         }
         // /__________________________________/
 
-
         $tc = 0;
         $theclass = [];
         foreach (TheClass::all() as $c){
 
+            if (DB::select('select * from  the_classes c,divisions d, majors m where
+
+                    m.name = :majorname and 
+                    c.ClassName = :ClassName and 
+                    d.Numberdvs = :division and
+                    c.MajorId = m.MajorId and
+                    c.ClassId = d.ClassId 
+                    '
+                    , [
+                        'majorname' => $request->get('majorname'),
+                        'ClassName' => $request->get('ClassName'),
+                        'division' => $request->get('division'),
+                    ]))
+            {
+                return redirect()->route("admin.dashboard")->with('error','The class exists 1');
+            }
             if($request->get('ClassName') == $c->ClassName){
                 $tc = 1;
                 $theclass = $c;
             }
+            if($request->get('ClassName') == "ClassTen" ||$request->get('ClassName') == "ClassTwelfth"||$request->get('ClassName') == "ClassThirteenth"){
+                $tc = 0;
+                break;
+            }
+            // foreach (Major::all() as $m){
+            //     if($request->majorname == $m->name && $request->get('ClassName') == "ClassTen"){
+            //         // dd("i am her");
+            //         $tc = 1;
+            //         $theclass = $c;
+            //         break;
+            //     }
+            //     if($request->majorname == $m->name && $request->get('ClassName') == "ClassTwelfth"){
+            //         // dd("i am here");
+            //         $tc = 1;
+            //         $theclass = $c;
+            //         break;
+            //     }
+            //     if($request->majorname == $m->name && $request->get('ClassName') == "ClassThirteenth"){
+            //         // dd("i am here");
+            //         $tc = 1;
+            //         $theclass = $c;
+            //     }
+            // }
         }
 
         if($tc == 0){
@@ -255,22 +294,20 @@ class AdminController extends Controller
             //اخز اخر قيمة تم ادخالها
             $theclass = DB::table('the_classes')->latest()->first();
         }
-
         // /____________________________________
 
-
         $td = 0;
-
-        foreach (TheClass::all() as $c){
-            foreach (Division::all() as $d){
-                if($request->get('division') == $d->Numberdvs && $d->ClassId == $c->ClassId){
-                    $td = 1;
-                    return redirect()->route("admin.dashboard")->with('error','The class exists');
-                }
+        foreach (Division::all() as $d){
+            if($request->get('ClassName') == "ClassTen" || $request->get('ClassName') == "ClassTwelfth"||$request->get('ClassName') == "ClassThirteenth"){
+                $td = 0;
+                break;
             }
+            elseif($request->get('division') == $d->Numberdvs && $d->ClassId == $theclass->ClassId){
+                $td = 1;
+                return redirect()->route("admin.dashboard")->with('error','The class exists 2');
+            }
+            
         }
-
-
 
         if($td == 0){
             DB::table('divisions')->insert([
@@ -287,6 +324,34 @@ class AdminController extends Controller
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function deleteClass($DivisionId,$ClassId)
+    {
+        DB::table('divisions')->where('DivisionId', $DivisionId)->delete();
+
+        $remainingDivisions = DB::table('divisions')->where('ClassId', $ClassId)->count();
+        if ($remainingDivisions === 0) {
+
+            DB::table('the_classes')->where('ClassId', $ClassId)->delete();
+        }
+
+        return redirect()->route('admin.showallclass')->with('success', 'Class deleted successfully.');
+    }
+
+
+
     public function showallclass(){
         $classes = DB::select('select * from  the_classes c,divisions d, majors m
         where 
@@ -295,9 +360,58 @@ class AdminController extends Controller
         ');
 
         return view('admin.show-all-class',compact('classes'));
-    }    
+    }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+    //add announcment
+    public function addAnnouncment(){
+        return view('admin.add-announcment');
+    }
+
+    public function processAnnouncment(Request $request){
+
+        if($request->has('all') )
+        {
+            return redirect()->route('admin.addAnnouncment')->with('success', 'I am all');
+        }
+        if($request->has('students'))
+        {
+            return redirect()->route('admin.addAnnouncment')->with('success', 'I am students');
+        }
+
+        if($request->has('secretary'))
+        {
+            return redirect()->route('admin.addAnnouncment')->with('success', 'I am secretary');
+        }
+        if($request->has('mentors'))
+        {
+            return redirect()->route('admin.addAnnouncment')->with('success', 'I am mentors');
+        }
+        if($request->has('Teachers'))
+        {
+            return redirect()->route('admin.addAnnouncment')->with('success', 'I am Teachers');
+        }
+
+        return redirect()->route('admin.addAnnouncment')->with('success', 'The announcment has been published successfully.');
+    }
 
 
 }
+
+

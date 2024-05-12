@@ -25,11 +25,10 @@ class Division extends Model
         return $this->belongsTo(Teacher::class);
     }
 
-
-
+    public function Student() 
+    {
+        return $this->belongsTo(Student::class);
+    }
 
 }
-    // public function Student() 
-    // {
-    //     return $this->belongsTo(Student::class);
-    // }
+    
