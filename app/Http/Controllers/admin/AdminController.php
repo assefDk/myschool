@@ -259,29 +259,26 @@ class AdminController extends Controller
                 $tc = 1;
                 $theclass = $c;
             }
+            
             if($request->get('ClassName') == "ClassTen" ||$request->get('ClassName') == "ClassTwelfth"||$request->get('ClassName') == "ClassThirteenth"){
+                
+                if(Db::select('select * from the_classes where
+                    ClassName = :ClassName and
+                    MajorId = :MajorId ' 
+                , [
+                'ClassName' => $request->get('ClassName'),
+                'MajorId' => $theMajor->MajorId,
+                ]))
+                {
+                    $test = TheClass::where(['ClassName' => $request->get('ClassName'),'MajorId' => $theMajor->MajorId])->first();
+                    $theclass = $test;
+                    $tc = 1;
+                    break;
+                }
                 $tc = 0;
                 break;
             }
-            // foreach (Major::all() as $m){
-            //     if($request->majorname == $m->name && $request->get('ClassName') == "ClassTen"){
-            //         // dd("i am her");
-            //         $tc = 1;
-            //         $theclass = $c;
-            //         break;
-            //     }
-            //     if($request->majorname == $m->name && $request->get('ClassName') == "ClassTwelfth"){
-            //         // dd("i am here");
-            //         $tc = 1;
-            //         $theclass = $c;
-            //         break;
-            //     }
-            //     if($request->majorname == $m->name && $request->get('ClassName') == "ClassThirteenth"){
-            //         // dd("i am here");
-            //         $tc = 1;
-            //         $theclass = $c;
-            //     }
-            // }
+            
         }
 
         if($tc == 0){
@@ -295,7 +292,7 @@ class AdminController extends Controller
             $theclass = DB::table('the_classes')->latest()->first();
         }
         // /____________________________________
-
+        
         $td = 0;
         foreach (Division::all() as $d){
             if($request->get('ClassName') == "ClassTen" || $request->get('ClassName') == "ClassTwelfth"||$request->get('ClassName') == "ClassThirteenth"){

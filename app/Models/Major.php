@@ -11,16 +11,20 @@ class Major extends Model
 
 
     protected $fillable = [
+        'MajorId',
         'name',
         'MajorId'
     ];
 
-
-
-
     public function TheClass() 
     {
         return $this->belongsTo(TheClass::class,'ClassId');
-    }  
+    } 
+    
+    public function Student() 
+    {
+        return $this->belongsTo(Student::class);
+    } 
+
 
 }

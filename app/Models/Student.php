@@ -44,15 +44,24 @@ class Student extends Authenticatable
     }
 
 
-    public function division()
+
+
+
+
+    public function Division()
     {
         return $this->hasMany(Division::class , 'DivisionId');
     }
 
-    // public function TheClass()
-    // {
-    //     return $this->hasMany(TheClass::class , 'DivisionId');
-    // }
+    public function TheClass()
+    {
+        return $this->hasMany(TheClass::class , 'ClassId');
+    }
+
+    public function Major()
+    {
+        return $this->hasMany(Major::class , 'MajorId');
+    }
     
 
 

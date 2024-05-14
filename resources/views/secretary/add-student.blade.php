@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>add Student</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    {{-- لاستقبال ال api --}}
     <meta name="_token" content="{{ csrf_token() }}">
     <style>
         label {
@@ -144,21 +145,6 @@
 
 
 
-
-        <br>
-        <br>
-        <label>studentStatus</label>
-        <select name="studentStatus" id="studentStatus">
-            <option value="successful">successful</option>
-            <option value="Failed">Failed</option>
-        </select>
-        @error('studentStatus')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
-
-        
-
-
         <br>
         <br>
 
@@ -197,12 +183,12 @@
         @enderror
 
 
-        
+
 
         <br>
         <br>
 
-        <button class="btn bsb-btn-xl btn-primary py-3" type="submit">add mentor</button>
+        <button class="btn bsb-btn-xl btn-primary py-3" type="submit">add Student</button>
 
     </form>
 
