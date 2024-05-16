@@ -27,17 +27,10 @@ return new class extends Migration
 
 
 
-
-            // $table->string('majorName'); 
-            // $table->foreign('majorName')->references('name')->on('majors');
-
-            // $table->enum('ClassName',['ClassOne','ClassTow','ClassThree','ClassFour','Classfive','ClassSix','ClassSeven','ClassEight','ClassNine','ClassTen','ClassTwelfth','ClassThirteenth']);
-            // $table->foreignId('ClassName')->references('ClassName')->on('the_classes');
-
-
-            // $table->foreignId('name')->references('name')->on('majors');
-            // $table->foreignId('ClassName')->references('ClassName')->on('the_classes');
-            // $table->foreignId('Numberdvs')->references('Numberdvs')->on('divisions');
+            //FK
+            $table->foreignId('MajorId')->references('MajorId')->on('majors');
+            $table->foreignId('ClassId')->references('ClassId')->on('the_classes');
+            $table->foreignId('DivisionId')->references('DivisionId')->on('divisions');
 
             
             $table->rememberToken();
@@ -45,6 +38,9 @@ return new class extends Migration
         });
             // $table->foreignId('division_id')->references('division_id')->on('divisions');
             // $table->foreignId('student_accounts')->references('user_id')->on('student_accounts');
+
+            // $table->string('ClassName'); 
+            // $table->foreign('ClassName')->references('ClassName')->on('the_classes');
 
     }
 
@@ -57,14 +53,4 @@ return new class extends Migration
     }
 };
 
-// Schema::create('students', function (Blueprint $table) {
-//     // Other columns...
-//     $table->unsignedBigInteger('name'); // Foreign key column
-//     // Other columns...
 
-//     // Foreign key constraint
-//     $table->foreign('name')
-//         ->references('name') // Referenced column
-//         ->on('majors') // Referenced table
-//         ->onDelete('cascade'); // Optional: Define the action on deletion
-// });

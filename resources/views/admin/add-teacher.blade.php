@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>add teacher</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    {{-- لاستقبال ال api --}}
+    <meta name="_token" content="{{ csrf_token() }}">
     <style>
         label {
             margin-right: 20px;
@@ -134,7 +136,7 @@
         <br>
         <label>gender</label>
         <select name="gender" id="gender">
-            <option value="feminine">feminine</option>
+            <option value="female">female</option>
             <option value="male">male</option>
         </select>
         @error('gender')
@@ -145,11 +147,12 @@
         <br>
         <br>
 
+
+
+
         <button class="btn bsb-btn-xl btn-primary py-3" type="submit">add teacher</button>
 
     </form>
-
-
 
 
 

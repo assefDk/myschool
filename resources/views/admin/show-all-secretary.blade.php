@@ -12,10 +12,14 @@
     <h1>show all secretary</h1>
 
 
+    @if (Session::has('delete'))
+        <div class="alert alert-success">{{Session::get('delete')}}</div>
+    @endif
+
 
 <br>
 
-
+  <form></form>
     <div class="table-responsive">
         <table class="table">
           <thead>
@@ -48,9 +52,10 @@
                     <td scope="row">   {{$u->fathername}} </td>
                     <td scope="row">   {{$u->mothername}} </td>
                     <td scope="row">   {{$u->gender}} </td>
-                    <td scope="row"> <button type="button" class="btn btn-success">Edit</button></td>
-                    <td scope="row"> <button type="button" class="btn btn-danger">Delete</button></td>  
-                </tr>    
+                    <td scope="row"> <a href="" class="btn btn-success">Edit</a></td>
+
+                    <td scope="row"> <a href="deleteSecretary/{{$u->secretaryid}}" class="btn btn-danger">Delete</a></td>  
+                </tr>
                 @endforeach
             </tr>
             

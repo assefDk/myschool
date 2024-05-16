@@ -37,7 +37,7 @@
             <tr>
                 @foreach ($user as $u)
                 <tr>
-                    <th scope="row">  {{$u->secretaryid}}</th>
+                    <th scope="row">  {{$u->mentorid}}</th>
                     <th scope="row">  {{$u->firstname}}</th>
                     <td scope="row">   {{$u->lastname}} </td>
                     <td scope="row">   {{$u->username}} </td>

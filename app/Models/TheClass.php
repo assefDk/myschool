@@ -37,6 +37,17 @@ class TheClass extends Model
     
 
 
+    //new
+    public function Subject() 
+    {
+        return $this->belongsTo(Subject::class);
+    }  
+
+
+
+
+
+
 
 }
 

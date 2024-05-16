@@ -23,7 +23,7 @@ class AdminController extends Controller
 {
 
 
-    //The Method Added Secretary
+    //Secretary
     public function addsecretary(){
         return view("admin.add-secrutary");
     }
@@ -59,10 +59,7 @@ class AdminController extends Controller
             $user->gender = $request->gender;
             $user->save();
 
-
             Auth::guard('secretary')->login($user);
-            // Auth::guard('secretary')->user()->getAuthPasswordName();
-            // Auth::loginUsingId(1);
 
             return redirect()->route("admin.dashboard")->with('success','Added successfully secretary');
             
@@ -75,22 +72,32 @@ class AdminController extends Controller
     }
     public function showallsecretary(){
         $user = Secretary::all();
-
-
-
         return view('admin.show-all-secretary',compact('user'));
     }
 
+    public function deleteSecretary($IdSecretary)
+    {
+        DB::table('divisions')->where('DivisionId', $IdSecretary)->delete();
 
 
-
-
-
-
-    //The Method Added Teacher
-    public function addteacher(){
-        return view("admin.add-teacher");
+        return redirect()->route("admin.showallsecretary")->with('delete','deleted successfully secretary');
     }
+
+
+
+
+
+
+
+
+
+
+    //Teacher
+    public function addteacher(){
+        $Majors = DB::select('select * from majors');
+        return view('admin.add-teacher' ,compact('Majors'));
+    }
+
     public function processaddteacher(Request $request){
 
         $validatot = Validator::make($request->all(), [
@@ -137,9 +144,7 @@ class AdminController extends Controller
 
         $user = Teacher::all();
         return view('admin.show-all-teacher',compact('user'));
-
     }
-    
 
 
 
@@ -149,7 +154,7 @@ class AdminController extends Controller
 
 
 
-    //The Method Added Mentor
+    //Mentor
     public function addmentor(){
         return view("admin.add-mentor");
     }

@@ -26,8 +26,12 @@ return new class extends Migration
             $table->enum('gender',['female','male']);
 
 
-            //لازم حط الشعبة قبل الActour
-            $table->foreignId('DivisionId')->references('DivisionId')->on('divisions');
+
+
+            //FK
+            // $table->foreignId('MajorId')->references('MajorId')->on('majors');
+            // $table->foreignId('ClassId')->references('ClassId')->on('the_classes');
+            // $table->foreignId('DivisionId')->references('DivisionId')->on('divisions');
 
             
             $table->timestamps();

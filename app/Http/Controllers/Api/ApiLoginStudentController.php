@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Models\Student;
+use App\Models\TheClass;
+use App\Models\Major;
+use App\Models\Division;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Student;
 
 class ApiLoginStudentController extends Controller
 {
@@ -58,20 +61,81 @@ class ApiLoginStudentController extends Controller
 
 
     
+    
+
+
+
+
+    //befor profileStudent
+    // public function profileStudent()
+    // {
+    //     // Retrieve the authenticated user's profile data
+    //     // $studentData = auth()->guard('student')->user();
+    //     $studentData = auth()->user();
+    
+    //     // Return a JSON response with the profile information
+    //     return response()->json([
+    //         'status' => true,
+    //         'message' => 'Profile information',
+    //         'data' => $studentData,
+    //         'id' => auth()->user()->studentId
+    //     ], 200);
+    // }
+
+
+    // after profileStudent
     public function profileStudent()
     {
-        // Retrieve the authenticated user's profile data
         // $studentData = auth()->guard('student')->user();
         $studentData = auth()->user();
-    
-        // Return a JSON response with the profile information
+
+        $className = TheClass::where(['ClassId' => $studentData->ClassId ])->first();
+        $majorName = Major::where(['MajorId' => $studentData->MajorId ])->first();
+        $Division = Division::where(['DivisionId' => $studentData->DivisionId ])->first();
+
+        
+
+        $newData = [
+            'studentId' => $studentData->studentId,
+            'username' =>  $studentData->username,
+            'password' =>  $studentData->password,
+            'firstName' =>  $studentData->firstName,
+            'lastName' =>  $studentData->lastName,
+            'phone' =>  $studentData->phone,
+            'address' =>  $studentData->adress,
+            'email' =>  $studentData->email,
+            'birthdate' =>  $studentData->birthdate,
+            'fathernName' =>  $studentData->fathernName,
+            'motherName' =>  $studentData->motherName,
+            'gender' =>  $studentData->gender,
+            'major' =>  $majorName->name,
+            'className' =>  $className->ClassName,
+            'Division' =>  $Division->Numberdvs,
+            'created_at' =>  $studentData->created_at,
+            'updated_at' =>  $studentData->updated_at,
+        ];
+
         return response()->json([
             'status' => true,
             'message' => 'Profile information',
-            'data' => $studentData,
+            'data' => $newData,
             'id' => auth()->user()->studentId
         ], 200);
     }
+
+
+
+
+    public function profileStudent()
+    {
+        
+    }
+
+
+
+
+
+
 
 
 
