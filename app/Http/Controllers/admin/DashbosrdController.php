@@ -17,7 +17,7 @@ class DashbosrdController extends Controller
 
 
     public function logout(){
-        Auth::guard('secretary')->logout();
+        Auth::guard('admin')->logout();
 
         return redirect()->route('login');
     }

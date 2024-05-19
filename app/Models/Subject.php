@@ -22,6 +22,11 @@ class Subject extends Model
     public function TheClass(){
         return $this->hasMany(TheClass::class , 'ClassId');
     }
-    
+
+
+    public function Teachers(){
+        return $this->belongsToMany(Teacher::class);
+    }
+
 
 }

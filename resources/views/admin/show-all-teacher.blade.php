@@ -16,6 +16,8 @@
 <br>
 
 
+    <a href="{{route('admin.dashboard')}}" class="btn btn-primary">bake</a>
+
     <div class="table-responsive">
         <table class="table">
           <thead>
@@ -37,7 +39,7 @@
             <tr>
                 @foreach ($user as $u)
                 <tr>
-                    <th scope="row">  {{$u->teacherid}}</th>
+                    <th scope="row">  {{$u->teacher_id}}</th>
                     <th scope="row">  {{$u->firstname}}</th>
                     <td scope="row">   {{$u->lastname}} </td>
                     <td scope="row">   {{$u->username}} </td>
@@ -48,8 +50,15 @@
                     <td scope="row">   {{$u->fathername}} </td>
                     <td scope="row">   {{$u->mothername}} </td>
                     <td scope="row">   {{$u->gender}} </td>
-                    <td scope="row"> <button type="button" class="btn btn-success">Edit</button></td>
-                    <td scope="row"> <button type="button" class="btn btn-danger">Delete</button></td>  
+                    <td scope="row"> <a href="{{route('admin.editteacher',$u->teacher_id)}}" class="btn btn-success">Edit</a></td>
+                    <td scope="row">
+                        <form action="{{route('admin.destroyteacher',$u->teacher_id)}}" method="post">
+                            @csrf
+                            @method('delete')
+                    
+                            <input class="btn btn-danger" type="submit" value="Delete" >
+                        </form> 
+                   </td>
                 </tr>    
                 @endforeach
             </tr>

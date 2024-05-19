@@ -13,7 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'admin.guest' => \App\Http\Middleware\AdminRedirect::class,
+
+
             'admin.auth' => \App\Http\Middleware\AdminAuthenticate::class,
 
             'secretary.auth' => \App\Http\Middleware\SecretaryAuthenticate::class,
@@ -29,3 +30,4 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
+    

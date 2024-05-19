@@ -3,6 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiLoginStudentController;
+use App\Http\Controllers\mentor\DashbosrdController as MentorDashbosrdController;
+use App\Http\Controllers\secretary\DashbosrdController as SecretaryDashbosrdController;
+
+
+
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -21,4 +26,6 @@ Route::group([
     Route::get('profileStudent',[ApiLoginStudentController::class,"profileStudent"])->name('profileStudent');
     //logoutStudent
     Route::get('logoutStudent',[ApiLoginStudentController::class,"logoutStudent"])->name('logoutStudent');
+
+    Route::get('nodeSudent',[ApiLoginStudentController::class,"nodeSudent"])->name('nodeSudent');
 });

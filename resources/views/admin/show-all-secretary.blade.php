@@ -19,7 +19,9 @@
 
 <br>
 
-  <form></form>
+
+    <a href="{{route('admin.dashboard')}}" class="btn btn-primary">bake</a>
+
     <div class="table-responsive">
         <table class="table">
           <thead>
@@ -52,9 +54,16 @@
                     <td scope="row">   {{$u->fathername}} </td>
                     <td scope="row">   {{$u->mothername}} </td>
                     <td scope="row">   {{$u->gender}} </td>
-                    <td scope="row"> <a href="" class="btn btn-success">Edit</a></td>
+                    <td scope="row"> <a href="{{route('admin.editsecretary',$u->secretaryid)}}" class="btn btn-success">Edit</a></td>
 
-                    <td scope="row"> <a href="deleteSecretary/{{$u->secretaryid}}" class="btn btn-danger">Delete</a></td>  
+                    <td scope="row">
+                      <form action="{{route('admin.destroysecretary',$u->secretaryid)}}" method="post">
+                        @csrf
+                        @method('delete')
+                        <input class="btn btn-danger" type="submit" value="Delete" >
+                      </form> 
+                    </td>
+
                 </tr>
                 @endforeach
             </tr>

@@ -11,7 +11,7 @@
 <body>
     <h1>show all Class</h1>
 
-    <a type="button" class="btn btn-primary" href="dashbosrd">backe</a>
+    <a type="button" class="btn btn-primary" href="dashbosrd">back</a>
     
 <br>
 

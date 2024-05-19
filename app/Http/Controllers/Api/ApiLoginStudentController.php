@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class ApiLoginStudentController extends Controller
 {
@@ -126,10 +127,22 @@ class ApiLoginStudentController extends Controller
 
 
 
-    public function profileStudent()
-    {
+
+
+
+    public function nodeSudent(){
+        $nodes = Db::select('select * from notes where studentId = ?' ,[auth()->user()->studentId]);
+
         
+
+        return response()->json([
+            'status' => true,
+            'data' => $nodes,
+            'auth' =>auth()->user()->studentId
+        ], 200);
+
     }
+
 
 
 

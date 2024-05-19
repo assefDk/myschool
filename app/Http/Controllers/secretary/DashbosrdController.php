@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Subject;
+use App\Models\Teacher;
 use App\Models\Division;
 use App\Models\Major;
 use App\Models\TheClass;
@@ -70,11 +71,6 @@ class DashbosrdController extends Controller
             'motherName' => 'required',
             'gender' => 'required',
 
-            
-            // 'MajorId' => 'required',
-            // 'ClassId' => 'required',
-            // 'DivisionId' => 'required',
-
         ]);
 
         if($validatot->passes()){
@@ -126,7 +122,6 @@ class DashbosrdController extends Controller
             'sub_name' => 'required',
             'max' => 'required',
             'min' => 'required',
-            // 'ClassId' => 'required',
         ]);
 
         // $student->phone = $request->phone;
@@ -147,19 +142,40 @@ class DashbosrdController extends Controller
             return redirect()->route("secretary.addSubject")->withInput()->withErrors($validatot);
         }
     }
-    public function showAllSubject(){
+    public function SelectClass(){
         $Majors = DB::select('select * from majors');
-        return view('secretary.show-alll-subject',compact('Majors'));
+        return view('secretary.SelectClass',compact('Majors'));
+    }
+    public function ShowAllSubject(Request $request){
+
+        $subjects = DB::select('select * from the_classes c, subjects s where 
+            s.ClassId = c.ClassId and
+            s.ClassId = ?', [$request->class]);
+
+
+        return view('secretary.show-all-subject',compact('subjects'));
     }
 
 
-    public function SubjectInClass(){
-        $Subjects  = Subject::all();
+
+    //ShowConnectingTeacherWithSubject
+    public function ShowConnectingTeacherWithSubject(Request $request){
+        $Teachers = Teacher::select('teacher_id','firstname','lastname')->get();
+        $Subjects = Subject::select('Subject_id','sub_name')->get();
+
+
+        return view('secretary.Connecting_teacher_with_Subject',compact('Teachers','Subjects'));
+    }
+    public function ConnectingTeacherWithSubject(Request $request){
+        // subject_teacher
+        $teacher = Teacher::find($request->Teacher);
+        $teacher->Subjects()->attach($request->Subjects);
+
+
         
-        return redirect()->route("secretary.addSubject", compact('Subjects'));
+        return 'success';
+
     }
-
-
 
 
 

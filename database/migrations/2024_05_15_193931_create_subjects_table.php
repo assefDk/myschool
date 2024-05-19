@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('sub_name');
             $table->integer('max')->default(0);
             $table->integer('min')->default(0);
+
             $table->foreignId('ClassId')->references('ClassId')->on('the_classes');
             
 

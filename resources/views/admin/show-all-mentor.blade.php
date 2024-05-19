@@ -15,6 +15,7 @@
 
 <br>
 
+<a href="{{route('admin.dashboard')}}" class="btn btn-primary">bake</a>
 
     <div class="table-responsive">
         <table class="table">
@@ -48,8 +49,14 @@
                     <td scope="row">   {{$u->fathername}} </td>
                     <td scope="row">   {{$u->mothername}} </td>
                     <td scope="row">   {{$u->gender}} </td>
-                    <td scope="row"> <button type="button" class="btn btn-success">Edit</button></td>
-                    <td scope="row"> <button type="button" class="btn btn-danger">Delete</button></td>  
+                    <td scope="row"> <a href="{{route('admin.editmentor',$u->mentorid)}}" class="btn btn-success">Edit</a></td>
+                    <td scope="row">
+                      <form action="{{route('admin.destroymentor',$u->mentorid)}}" method="post">
+                        @csrf
+                        @method('delete')
+                        <input class="btn btn-danger" type="submit" value="Delete" >
+                      </form> 
+                    </td>
                 </tr>    
                 @endforeach
             </tr>

@@ -26,8 +26,7 @@
                     <ul class="navbar-nav justify-content-end flex-grow-1">
                         
                         <li class="nav-item dropdown">
-                            {{-- <a class="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello, {{Auth::guard('admin')->user()->name}}</a> --}}
-                            <a class="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello</a>
+                            <a class="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello,{{Auth::user()->username}}</a>
                             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">                          
                                 <li>
                                     <a class="dropdown-item" href="{{route('mentor.logout')}}">Logout</a>
@@ -52,6 +51,25 @@
                 </div>
            </div>
         </div>
+
+
+
+        @if (Session::has('success'))
+            <div class="alert alert-success">{{Session::get('success')}}</div>
+        @endif
+
+
+        <div class="d-flex justify-content-center ml-3">
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('mentor.showAddNote')}}"> add note</a>
+        </div>
+
+
+
+
+
+
+
+
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
    </body>
 </html>

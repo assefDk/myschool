@@ -26,8 +26,8 @@
                     <ul class="navbar-nav justify-content-end flex-grow-1">
                         
                         <li class="nav-item dropdown">
-                            {{-- <a class="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello, {{Auth::guard('admin')->user()->name}}</a> --}}
-                            <a class="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello</a>
+                            <a class="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello, {{Auth::user()->username}}</a>
+                            {{-- <a class="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello</a> --}}
                             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">                          
                                 <li>
                                     <a class="dropdown-item" href="{{route('secretary.logout')}}">Logout</a>
@@ -71,7 +71,15 @@
         <br>
         <br>
         <div class="d-flex justify-content-center">
-            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('secretary.showAllSubject')}}"> Show All Subject</a>               
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('secretary.SelectClass')}}"> Show All Subject</a>               
+        </div>
+
+
+
+        <br>
+        <br>
+        <div class="d-flex justify-content-center">
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('secretary.ShowConnectingTeacherWithSubject')}}"> Connecting the teacher with the material</a>               
         </div>
 
 

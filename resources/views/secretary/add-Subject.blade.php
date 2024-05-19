@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>add Student</title>
+    <title>add Subject</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     {{-- لاستقبال ال api --}}
     <meta name="_token" content="{{ csrf_token() }}">
@@ -58,6 +58,7 @@
 
         <label>majors</label>
         <select name="Majors" id="Majors">
+            <option value="" disabled>select Major</option>
             @foreach ($Majors as $m)
                 <option value="{{$m->MajorId}}">{{$m->name}}</option>
             @endforeach

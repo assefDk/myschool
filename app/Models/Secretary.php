@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-// use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class Secretary extends Authenticatable
 {
 
-    use HasFactory;
+    use HasApiTokens,HasFactory, Notifiable;
 
-    // protected $guard = 'secretary';
+    protected $guard = ['admin','secretary'];
     
     protected $table = 'secretaries';
 
@@ -43,11 +44,13 @@ class Secretary extends Authenticatable
 
 
 
-
-
-
-
-
+    public function run(): void
+    {
+        Secretary::factory()
+            ->count(1)
+            ->hasPosts(1)
+            ->create();
+    }
 
 
 }

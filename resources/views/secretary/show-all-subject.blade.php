@@ -20,20 +20,23 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">Subject_id</th>
+              <th scope="col">id</th>
               <th scope="col">name</th>
-              <th scope="col">lastname</th>
-              <th scope="col">username</th>
+              <th scope="col">max</th>
+              <th scope="col">min</th>
+              <th scope="col">ClassId</th>
+              <th scope="col">major</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-                @foreach ($Subjects as $s)
+                @foreach ($subjects as $s)
                 <tr>
-                    <th scope="row">  {{$s->Subject_id}}</th>
-                    <th scope="row">  {{$s->sub_name}}</th>
-                    <th scope="row">  {{$s->max}}</th>
-                    <th scope="row">  {{$s->min}}</th>
+                    <th scope="row">   {{$s->Subject_id}}</th>
+                    <th scope="row">   {{$s->sub_name}}</th>
+                    <th scope="row">   {{$s->max}}</th>
+                    <th scope="row">   {{$s->min}}</th>
+                    <th scope="row">   {{$s->ClassId}}</th>
                     <td scope="row"> <button type="button" class="btn btn-success">Edit</button></td>
                     <td scope="row"> <button type="button" class="btn btn-danger">Delete</button></td>  
                 </tr>    

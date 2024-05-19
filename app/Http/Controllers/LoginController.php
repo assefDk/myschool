@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mentor;
+use App\Models\Secretary;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -27,24 +30,36 @@ class LoginController extends Controller
     
         if ($validator->passes()) {
 
-            if (Auth::guard('secretary')->attempt(['username' => $request->username, 'password' => $request->password , 'isadmin' => 1])) {
+            if (Auth::guard('admin')->attempt(['username' => $request->username, 'password' => $request->password , 'isadmin' => 1])) {
                 // Auth::guard('secretary')->login();
-                return redirect()->route('admin.dashboard');
+                $userMentor = Secretary::where('username',$request->username)->first();
+                $token = $userMentor->createToken("API TOKEN")->plainTextToken;
+                
+                return redirect()->route('admin.dashboard' , ['token' => $token]);
             }
 
             elseif(Auth::guard('secretary')->attempt(['username' => $request->username, 'password' => $request->password])) {
-                return redirect()->route('secretary.dashbosrd');
+                $userMentor = Secretary::where('username',$request->username)->first();
+                $token = $userMentor->createToken("API TOKEN")->plainTextToken;
+
+                return redirect()->route('secretary.dashbosrd',['token' => $token]);
             }
 
             elseif(Auth::guard('teacher')->attempt(['username' => $request->username, 'password' => $request->password])){
-                return redirect()->route('teacher.dashbosrd');
+                $userMentor = Teacher::where('username',$request->username)->first();
+                $token = $userMentor->createToken("API TOKEN")->plainTextToken;
+
+                return redirect()->route('teacher.dashbosrd' ,['token' => $token]);
             }
 
-            elseif(Auth::guard('mentor')->attempt(['username' => $request->username, 'password' => $request->password])){
-                return redirect()->route('mentor.dashbosrd');
+            elseif(Auth::guard('mentor')->attempt(['username' => $request->username , 'password' => $request->password])){
+                $userMentor = Mentor::where('username',$request->username)->first();
+                $token = $userMentor->createToken("API TOKEN")->plainTextToken;
+
+                return redirect()->route('mentor.dashbosrd', ['token' => $token]);
             }
             else {
-                return redirect()->route('login')->with('error', 'إما أن البريد الإلكتروني أو كلمة المرور غير صحيحة');
+                return redirect()->route('login')->with('error', 'إما أن اسم المستخدم أو كلمة المرور غير صحيحة');
             }
         } else {
             return redirect()->route('login')->withInput()->withErrors($validator);

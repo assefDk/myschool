@@ -58,37 +58,68 @@ class AdminController extends Controller
             $user->mothername = $request->mothername;
             $user->gender = $request->gender;
             $user->save();
-
+            
             Auth::guard('secretary')->login($user);
 
             return redirect()->route("admin.dashboard")->with('success','Added successfully secretary');
             
         }else{
-
             return redirect()->route("admin.addsecretary")->withInput()->withErrors($validatot);
-
         }
-        
     }
+
+    public function editsecretary($id){
+        $secretary= Secretary::all();
+            return view('admin.edit-secretary',['secretary'=>$secretary->find($id)]);
+    }
+    public function updatesecretary(Request $request,$id){
+        $validatot = Validator::make($request->all(), [
+            'firstname' => 'required',
+            'lastname'=> 'required',
+            'username'=> 'required',
+            'password' => 'required',
+            // 'phone'=> 'required|unique',
+            'phone'=> 'required',
+            'address'=> 'required',
+            'email' => 'required|email|unique:users',
+            'birthdate'=> 'required',
+            'fathername'=> 'required',
+            'mothername'=> 'required',
+            'gender'=> 'required',
+        ]);
+
+        if($validatot->passes()){
+            
+                $to_update=Secretary::find($id);
+                $to_update->firstname=strip_tags($request->input('firstname'));
+                $to_update->lastname=strip_tags($request->input('lastname'));
+                $to_update->username=strip_tags($request->input('username'));
+                $to_update->password=Hash::make($request->password);
+                $to_update->phone=strip_tags($request->input('phone'));
+                $to_update->address=strip_tags($request->input('address'));
+                $to_update->email=strip_tags($request->input('email'));
+                $to_update->birthdate=strip_tags($request->input('birthdate'));
+                $to_update->fathername=strip_tags($request->input('fathername'));
+                $to_update->mothername=strip_tags($request->input('mothername'));
+                $to_update->gender=strip_tags($request->input('gender'));
+
+            $to_update->save();
+            return redirect()->route("admin.showallsecretary")->with('success',"edit successfully");
+        }
+        return redirect()->back()->withInput()->withErrors($validatot);
+    }
+
     public function showallsecretary(){
         $user = Secretary::all();
         return view('admin.show-all-secretary',compact('user'));
     }
 
-    public function deleteSecretary($IdSecretary)
+    public function destroysecretary($id)
     {
-        DB::table('divisions')->where('DivisionId', $IdSecretary)->delete();
-
-
-        return redirect()->route("admin.showallsecretary")->with('delete','deleted successfully secretary');
+        $to_delete=Secretary::find($id);
+        $to_delete->destroy($id);
+        return redirect()->route('admin.showallsecretary')->with('success', 'secretary deleted successfully.');
     }
-
-
-
-
-
-
-
 
 
 
@@ -99,7 +130,6 @@ class AdminController extends Controller
     }
 
     public function processaddteacher(Request $request){
-
         $validatot = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname'=> 'required',
@@ -133,24 +163,57 @@ class AdminController extends Controller
             Auth::guard('teacher')->login($user);
 
             return redirect()->route("admin.dashboard")->with('success','Added successfully teacher');
-            
         }else{
-
             return redirect()->route("admin.addteacher")->withInput()->withErrors($validatot);
-
         }
     }
+    public function editteacher($id){
+        $teacher= Teacher::all();
+            return view('admin.edit-teacher',['teacher'=>$teacher->find($id)]);
+    }
+    public function updateteacher(Request $request,$id){
+        $validatot = Validator::make($request->all(), [
+            'firstname' => 'required',
+            'lastname'=> 'required',
+            'username'=> 'required',
+            'password' => 'required',
+            // 'phone'=> 'required|unique',
+            'phone'=> 'required',
+            'address'=> 'required',
+            'email' => 'required|email|unique:users',
+            'birthdate'=> 'required',
+            'fathername'=> 'required',
+            'mothername'=> 'required',
+            'gender'=> 'required',
+        ]);
+        if($validatot->passes()){
+                $to_update=Teacher::find($id);
+                $to_update->firstname=strip_tags($request->input('firstname'));
+                $to_update->lastname=strip_tags($request->input('lastname'));
+                $to_update->username=strip_tags($request->input('username'));
+                $to_update->password=Hash::make($request->password);
+                $to_update->phone=strip_tags($request->input('phone'));
+                $to_update->address=strip_tags($request->input('address'));
+                $to_update->email=strip_tags($request->input('email'));
+                $to_update->birthdate=strip_tags($request->input('birthdate'));
+                $to_update->fathername=strip_tags($request->input('fathername'));
+                $to_update->mothername=strip_tags($request->input('mothername'));
+                $to_update->gender=strip_tags($request->input('gender'));
+            $to_update->save();
+            return redirect()->route("admin.showallteacher")->with('success',"edit successfully");
+        }
+        return redirect()->back()->withInput()->withErrors($validatot);
+    }
     public function showallteacher(){
-
         $user = Teacher::all();
         return view('admin.show-all-teacher',compact('user'));
     }
-
-
-
-
-
-
+    public function destroyteacher($id)
+    {
+        $to_delete=Teacher::find($id);
+        $to_delete->destroy($id);
+        return redirect()->route('admin.showallteacher')->with('success', 'teacher deleted successfully.');
+    }
 
 
 
@@ -158,9 +221,7 @@ class AdminController extends Controller
     public function addmentor(){
         return view("admin.add-mentor");
     }
-
     public function processaddmentor(Request $request){
-
         $validatot = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname'=> 'required',
@@ -191,33 +252,77 @@ class AdminController extends Controller
             $user->gender = $request->gender;
             $user->save();
 
-
             Auth::guard('mentor')->login($user);
 
             return redirect()->route("admin.dashboard")->with('success','Added successfully mentor');
-            
         }else{
-
             return redirect()->route("admin.addmentor")->withInput()->withErrors($validatot);
-
         }
+    }
+    public function editmentor($id){
+        $mentors= Mentor::all();
+            return view('admin.edit-mentor',['mentor'=>$mentors->find($id)]);
+    }
+    public function updatementor(Request $request,$id){
+        $validatot = Validator::make($request->all(), [
+            'firstname' => 'required',
+            'lastname'=> 'required',
+            'username'=> 'required',
+            'password' => 'required',
+            // 'phone'=> 'required|unique',
+            'phone'=> 'required',
+            'address'=> 'required',
+            'email' => 'required|email|unique:users',
+            'birthdate'=> 'required',
+            'fathername'=> 'required',
+            'mothername'=> 'required',
+            'gender'=> 'required',
+        ]);
+        if($validatot->passes()){
+                $to_update=Mentor::find($id);
+                $to_update->firstname=strip_tags($request->input('firstname'));
+                $to_update->lastname=strip_tags($request->input('lastname'));
+                $to_update->username=strip_tags($request->input('username'));
+                $to_update->password=Hash::make($request->password);
+                $to_update->phone=strip_tags($request->input('phone'));
+                $to_update->address=strip_tags($request->input('address'));
+                $to_update->email=strip_tags($request->input('email'));
+                $to_update->birthdate=strip_tags($request->input('birthdate'));
+                $to_update->fathername=strip_tags($request->input('fathername'));
+                $to_update->mothername=strip_tags($request->input('mothername'));
+                $to_update->gender=strip_tags($request->input('gender'));
+            $to_update->save();
+            return redirect()->route("admin.showallmentor")->with('success',"edit successfully");
+        }
+        return redirect()->back()->withInput()->withErrors($validatot);
     }
     public function showallmentor(){
         $user = Mentor::all();
         return view('admin.show-all-mentor',compact('user'));
     }
+    public function destroymentor($id)
+    {
+        $to_delete=Mentor::find($id);
+        $to_delete->destroy($id);
+        return redirect()->route('admin.showallmentor')->with('success', 'mentor deleted successfully.');    
+    }
+
+
+
+
+
+
+
+
+
 
 
     //add class
     public function addclass(){
-        // $dv =  Division::all();
-        // $cl = TheClass::all();
-
         return view("admin.add-class");
     }    
 
     public function processClass(Request $request){
-        
         $tm = 0;
         $theMajor = [];
         
@@ -324,21 +429,6 @@ class AdminController extends Controller
         return redirect()->route("admin.dashboard")->with('success','Added successfully class');
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function deleteClass($DivisionId,$ClassId)
     {
         DB::table('divisions')->where('DivisionId', $DivisionId)->delete();
@@ -352,8 +442,6 @@ class AdminController extends Controller
         return redirect()->route('admin.showallclass')->with('success', 'Class deleted successfully.');
     }
 
-
-
     public function showallclass(){
         $classes = DB::select('select * from  the_classes c,divisions d, majors m
         where 
@@ -365,22 +453,7 @@ class AdminController extends Controller
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     
-    
-
     //add announcment
     public function addAnnouncment(){
         return view('admin.add-announcment');
