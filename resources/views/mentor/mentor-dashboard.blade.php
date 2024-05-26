@@ -30,8 +30,6 @@
                             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">                          
                                 <li>
                                     <a class="dropdown-item" href="{{route('mentor.logout')}}">Logout</a>
-                                    {{-- <a class="dropdown-item" href="">Logout</a> --}}
-                                    {{-- <a class="dropdown-item" href="{{route('logout')}}">Logout</a> --}}
                                 </li>
                             </ul>
                         </li>

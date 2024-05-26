@@ -39,7 +39,7 @@
             <tr>
                 @foreach ($user as $u)
                 <tr>
-                    <th scope="row">  {{$u->teacher_id}}</th>
+                    <th scope="row">  {{$u->idT}}</th>
                     <th scope="row">  {{$u->firstname}}</th>
                     <td scope="row">   {{$u->lastname}} </td>
                     <td scope="row">   {{$u->username}} </td>
@@ -50,9 +50,9 @@
                     <td scope="row">   {{$u->fathername}} </td>
                     <td scope="row">   {{$u->mothername}} </td>
                     <td scope="row">   {{$u->gender}} </td>
-                    <td scope="row"> <a href="{{route('admin.editteacher',$u->teacher_id)}}" class="btn btn-success">Edit</a></td>
+                    <td scope="row"> <a href="{{route('admin.editteacher',$u->idT)}}" class="btn btn-success">Edit</a></td>
                     <td scope="row">
-                        <form action="{{route('admin.destroyteacher',$u->teacher_id)}}" method="post">
+                        <form action="{{route('admin.destroyteacher',$u->idT)}}" method="post">
                             @csrf
                             @method('delete')
                     

@@ -37,7 +37,7 @@
             <div class="alert alert-success">{{Session::get('success')}}</div>
         @endif
     
-    <form action="{{Route('admin.updateteacher',$teacher->teacher_id)}}" method="POST">
+    <form action="{{Route('admin.updateteacher',$teacher->idT)}}" method="POST">
         @csrf
         <label>first_name</label>
         <input type="text" name="firstname" id="firstname" value="{{$teacher->firstname}}" class="form-control  @error('firstname') is-invalid @enderror">

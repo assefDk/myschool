@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('subjects', function (Blueprint $table) {
-            $table->id('Subject_id');
+            $table->id('idS');
             $table->string('sub_name');
             $table->integer('max')->default(0);
             $table->integer('min')->default(0);

@@ -109,6 +109,9 @@ Route::group(['prefix' => 'secretary'],function(){
             Route::post('/processAddStudent',[SecretaryDashbosrdController::class,'processAddStudent'])->name('processAddStudent');
             Route::post('/fetchClass/{id}',[SecretaryDashbosrdController::class,'fetchClass'])->name('fetchClass');
             Route::post('/fetchDivision/{id}',[SecretaryDashbosrdController::class,'fetchDivision'])->name('fetchDivision');
+            Route::post('/fetchSubject/{div}',[SecretaryDashbosrdController::class,'fetchSubject'])->name('fetchSubject');
+
+            
             
             //Add Subject
             Route::get('/addSubject',[SecretaryDashbosrdController::class,'addSubject'])->name('secretary.addSubject');
@@ -131,10 +134,37 @@ Route::group(['prefix' => 'secretary'],function(){
 Route::group(['prefix' => 'teacher'],function(){
     Route::group(["middleware"=> "auth:sanctum"],function(){
         Route::group(['middleware' => 'teacher.auth'],function(){
+            Route::get('logout', [TeacherDashbosrdController::class,'logout'])->name('teacher.logout');
             Route::get('/dashbosrd',[TeacherDashbosrdController::class,'index'])->name('teacher.dashbosrd');
+
+
+            //fetchs
+            Route::post('/fetchClass/{id}',[TeacherDashbosrdController::class,'fetchClass'])->name('fetchClass');
+            Route::post('/fetchDivision/{id}',[TeacherDashbosrdController::class,'fetchDivision'])->name('fetchDivision');
+            Route::post('/fetchSubject/{id}',[TeacherDashbosrdController::class,'fetchSubject'])->name('fetchSubject');
+            Route::post('/fetchSubject/{div}',[TeacherDashbosrdController::class,'fetchSubject'])->name('fetchSubject');
+
+
+
+
+
+            //Homework
+            Route::get('/addHomework',[TeacherDashbosrdController::class,'addHomework'])->name('teacher.addHomework');
+            Route::post('/ProcessAddHomework', [TeacherDashbosrdController::class,'ProcessAddHomework'])->name('teacher.ProcessAddHomework');
+
+
+
+
+
+
+
+            
         });
     });
 });
+
+
+
 
 //Mentor
 Route::group(['prefix' => 'mentor'],function(){

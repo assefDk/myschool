@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subject_teacher', function (Blueprint $table) {
-            $table->id('sub_tea_id');
+        Schema::create('divisions_teachers', function (Blueprint $table) {
+            $table->id('div_tea_id');
 
-            $table->foreignId('idS')->references('idS')->on('subjects');
             $table->foreignId('idT')->references('idT')->on('teachers');
-            
-            
+            $table->foreignId('DivisionId')->references('DivisionId')->on('divisions');
+
+
 
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subject_teacher');
+        Schema::dropIfExists('divisions_teachers');
     }
 };

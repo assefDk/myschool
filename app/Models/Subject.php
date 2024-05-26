@@ -9,8 +9,12 @@ class Subject extends Model
 {
     use HasFactory;
 
+
+    protected $primaryKey = 'idS';
+
+
     protected $fillable = [
-        'Subject_id',
+        'idS',
         'sub_name',
         'max',
         'min',
@@ -25,7 +29,7 @@ class Subject extends Model
 
 
     public function Teachers(){
-        return $this->belongsToMany(Teacher::class);
+        return $this->belongsToMany(Teacher::class,'subject_teacher','idS','idT');
     }
 
 

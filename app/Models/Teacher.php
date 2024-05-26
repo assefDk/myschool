@@ -17,12 +17,12 @@ class Teacher extends Authenticatable
 
     protected $table = 'teachers';
 
-    protected $primaryKey = 'teacher_id';
+    protected $primaryKey = 'idT';
 
 
     
     protected $fillable = [
-        'teacher_id',
+        'idT',
         'firstname',
         'lastname',
         'phone',
@@ -49,11 +49,23 @@ class Teacher extends Authenticatable
 
     public function Subjects()
     {
-        return $this->belongsToMany(Subject::class);
+        return $this->belongsToMany(Subject::class,'subject_teacher','idT','idS');
     }
 
 
+    public function Divisions()
+    {
+        return $this->belongsToMany(Division::class,'divisions_teachers','idT','DivisionId');
+    }
+
+    
+    
 
 
 
 }
+
+    // public function subjects()
+    // {
+    //     return $this->belongsToMany(Subject::class, 'user_subject', 'user_id', 'subject_id');
+    // }

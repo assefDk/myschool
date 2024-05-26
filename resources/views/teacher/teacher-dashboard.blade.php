@@ -26,19 +26,13 @@
                     <ul class="navbar-nav justify-content-end flex-grow-1">
                         
                         <li class="nav-item dropdown">
-                            {{-- @auth --}}
-                            {{-- <a class="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello, {{Auth::guard('teachers')->user()->username}}</a> --}}
-                            {{-- @endauth --}}
-                                <a class="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello </a>
+                            <a class="nav-link dropdown-toggle" href="#!" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello, {{Auth::user()->username}}</a>
                             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">                          
                                 <li>
-                                    {{-- <a class="dropdown-item" href="{{route('admin.logout')}}">Logout</a> --}}
-                                    {{-- <a class="dropdown-item" href="{{route('logout')}}">Logout</a> --}}
-                                    <a class="dropdown-item" href="">Logout</a>
+                                    <a class="dropdown-item" href="{{route('teacher.logout')}}">Logout</a>
                                 </li>
                             </ul>
                         </li>
-                        
                     </ul>
                 </div>
                 </div>
@@ -58,34 +52,30 @@
 
 
 
+        <br>
+        <br>
 
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        {{-- <div class="">
-            @foreach ($users as $t)
-                <h1>{{$t->username}}</h1>
-                <h1>{{$t->password}}</h1>
-                <h1>{{$t->firstname}}</h1>
-                <h1>{{$t->lastname}}</h1>
-                <h1>{{$t->phone}}</h1>
-                <h1>{{$t->address}}</h1>
-                <h1>{{$t->email}}</h1>
-                <h1>{{$t->birthdate}}</h1>
-                <h1>{{$t->fathername}}</h1>
-                <h1>{{$t->mothername}}</h1>
-                <h1>{{$t->gender}}</h1>
-                <h1>{{$t->DivisionId}}</h1>
-                <h1>{{$t->WeeklySchedule}}</h1>
-                
-                <h1>{{$t->ClassId}}</h1>
-                <h1>{{$t->ClassName}}</h1>
-                {{-- <h1>{{$t->SectionId}}</h1> --}}
-            {{-- @endforeach --}}
 
-        </div> --}}
+
+
+
+
+        @if (Session::has('success'))
+            <div class="alert alert-success">{{Session::get('success')}}</div>
+        @endif
+
+
+        <div class="d-flex justify-content-center ml-3">
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('teacher.addHomework')}}"> add Homework</a>
+        </div>
+
+
+
+
+
+
+
+
 
 
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>

@@ -11,23 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subject_teacher', function (Blueprint $table) {
-            $table->id('sub_tea_id');
-
+        Schema::create('homework', function (Blueprint $table) {
+            $table->id('IdHomework');
+            $table->string('creator');
+            $table->string('file');
+            $table->string('subject');
+            $table->date('startHomework');
+            $table->date('endHomework');
             $table->foreignId('idS')->references('idS')->on('subjects');
-            $table->foreignId('idT')->references('idT')->on('teachers');
-            
-            
 
+
+            
             $table->timestamps();
         });
+        // $table->string('homeworkName');
     }
-
+    
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('subject_teacher');
+        Schema::dropIfExists('homework');
     }
 };

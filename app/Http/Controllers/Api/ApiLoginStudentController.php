@@ -53,7 +53,7 @@ class ApiLoginStudentController extends Controller
         }
         
     }
-    //3|Icqle1MhBKpwHw7fVrV9aQaia8okMjeOzkZ3BiINabf329cf
+
 
 
 
@@ -142,6 +142,27 @@ class ApiLoginStudentController extends Controller
         ], 200);
 
     }
+
+
+    public function HomeworkSudent(){
+        $Homework = Db::select('select * from homework where 
+
+            idS= ?' ,[auth()->user()->DivisionId]);
+
+
+        return response()->json([
+            'status' => true,
+            'data' => $Homework,
+            'auth' =>auth()->user()->studentId
+        ], 200);
+
+    }
+
+
+
+
+
+
 
 
 

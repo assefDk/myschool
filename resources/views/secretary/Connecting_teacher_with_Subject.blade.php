@@ -31,10 +31,11 @@
 
     <form action="{{Route('secretary.ConnectingTeacherWithSubject')}}" method="POST">
         @csrf
+        <label>Teacher</label>
         <select class="form-control" name="Teacher" id="Teacher">
             <option value="" 	disabled>Select Teacher</option>
             @foreach ($Teachers as $t)
-                <option value="{{$t->teacher_id}}">{{$t->firstname}} {{$t->lastname}}</option>
+                <option value="{{$t->idT}}">{{$t->firstname}} {{$t->lastname}}</option>
             @endforeach
         </select>
 
@@ -44,11 +45,58 @@
         <br>
         <br>
 
-
-        <select class="form-control" name="Subjects[]" id="Subjects" multiple>
-            @foreach ($Subjects as $s)
-                <option value="{{$s->Subject_id}}">{{$s->sub_name}}</option>
+        <label>majors</label>
+        <select class="form-control" name="Majors" id="Majors">
+            <option value="">Select Major</option>
+            @foreach ($Majors as $m)
+                <option value="{{$m->MajorId}}">{{$m->name}}</option>
             @endforeach
+        </select>
+        @error('name')
+            <p class="invalid-feedback">{{$message}}</p>
+        @enderror
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+
+        <label>Class</label>
+        <select class="form-control" name="class" id="class">
+            <option value="" >Select Class</option>
+        </select>
+        @error('class')
+            <p class="invalid-feedback">{{$message}}</p>
+        @enderror
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+
+        <label>Division</label>
+        <select class="form-control" name="division" id="division">
+            <option value="">Select division</option>
+        </select>
+        @error('class')
+            <p class="invalid-feedback">{{$message}}</p>
+        @enderror
+
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+
+
+        <select class="form-control" name="Subjects" id="Subjects" multiple>
+            <option value="" disabled>Select Subject</option>
         </select>
 
         <br>
@@ -59,6 +107,108 @@
 
     </form>
 
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+        //all
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+
+        //#class
+        $(document).ready(function(){
+            $('#Majors').change(function(){
+                var Majors = $(this).val();
+
+                // if(Majors == ""){
+                //     var Majors = 0;
+                // }
+
+                $.ajax({
+                    url : '{{ url("secretary/fetchClass/")}}/'+ Majors,
+                    type : 'post',
+                    datatype: 'json',
+                    success: function(response){
+                        //من اجل تفضية ال opthin بعد كل تحديد
+                        $('#class').find('option:not(:first)').remove();
+                        $('#division').find('option:not(:first)').remove();
+                        $('#Subjects').find('option:not(:first)').remove();
+                        if(response['status'] > 0)
+                        {
+                            // console.log(response);     
+                            $.each(response['Classes'],function(key,value){
+                                $("#class").append("<option value='"+value['ClassId']+"'>"+value['ClassName']+"</option>");
+                            });
+                        }
+                    }
+                });
+
+            });
+
+
+            $('#class').change(function(){
+                var clas = $(this).val();
+                
+                
+                // console.log(clas);
+
+                $.ajax({
+                    url : '{{ url("secretary/fetchDivision/")}}/'+ clas,
+                    type : 'post',
+                    datatype: 'json',
+                    success: function(response){
+                        //من اجل تفضية ال opthin بعد كل تحديد
+                        $('#division').find('option:not(:first)').remove();
+                        $('#Subjects').find('option:not(:first)').remove();
+                        if(response['status'] > 0)
+                        {
+                            // console.log(response);     
+                            $.each(response['Division'],function(key,value){
+                                $("#division").append("<option value='"+value['DivisionId']+"'>"+value['Numberdvs']+"</option>");
+                            });
+                        }
+                    }
+                });
+                
+            });
+
+
+
+            $('#division').change(function(){
+                var clas = $('#class').val();
+
+                
+                // console.log(clas);  
+
+                $.ajax({
+                    url : '{{ url("secretary/fetchSubject/")}}/'+ clas,
+                    type : 'post',
+                    datatype: 'json',
+                    success: function(response){
+                        //من اجل تفضية ال opthin بعد كل تحديد
+                        $('#Subjects').find('option:not(:first)').remove();
+                        if(response['status'] > 0)
+                        {
+                            // console.log(response);     
+                            $.each(response['Subject'],function(key,value){
+                                $("#Subjects").append("<option value='"+value['idS']+"'>"+value['sub_name']+"</option>");
+                            });
+                        }
+                    }
+                });
+
+            });
+
+
+        });
+  
+  
+    </script>
 
 
 

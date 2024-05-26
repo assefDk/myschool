@@ -32,7 +32,7 @@
             <tr>
                 @foreach ($subjects as $s)
                 <tr>
-                    <th scope="row">   {{$s->Subject_id}}</th>
+                    <th scope="row">   {{$s->idS}}</th>
                     <th scope="row">   {{$s->sub_name}}</th>
                     <th scope="row">   {{$s->max}}</th>
                     <th scope="row">   {{$s->min}}</th>

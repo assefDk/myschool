@@ -47,9 +47,9 @@ class LoginController extends Controller
 
             elseif(Auth::guard('teacher')->attempt(['username' => $request->username, 'password' => $request->password])){
                 $userMentor = Teacher::where('username',$request->username)->first();
-                $token = $userMentor->createToken("API TOKEN")->plainTextToken;
+                // $token = $userMentor->createToken("API TOKEN")->plainTextToken;
 
-                return redirect()->route('teacher.dashbosrd' ,['token' => $token]);
+                return redirect()->route('teacher.dashbosrd');
             }
 
             elseif(Auth::guard('mentor')->attempt(['username' => $request->username , 'password' => $request->password])){

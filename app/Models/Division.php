@@ -15,6 +15,10 @@ class Division extends Model
         'Numberdvs',
     ];
 
+
+    protected $primaryKey = 'DivisionId';
+
+
     public function TheClass()
     {
         return $this->hasMany(TheClass::class);
@@ -29,5 +33,15 @@ class Division extends Model
     {
         return $this->belongsTo(Student::class);
     }
+
+
+
+    public function Teachers()
+    {
+        return $this->belongsToMany(Teacher::class,'divisions_teachers','DivisionId','idT');
+    }
+
+
+
 
 }

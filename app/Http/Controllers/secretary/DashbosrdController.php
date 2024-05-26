@@ -34,27 +34,36 @@ class DashbosrdController extends Controller
     }
 
 
+    //fetchs
     public function fetchClass($MajorId){
         $Classes = DB::select('select * from the_classes where MajorId = ?', [$MajorId]);
-
-
 
         return response()->json([
             'status' => 1,
             'Classes' => $Classes
         ]);
-
     }
 
     public function fetchDivision($ClassId){
         $division = DB::select('select * from divisions where ClassId = ?', [$ClassId]);
-
         return response()->json([
             'status' => 1,
             'Division' => $division
         ]);
-
     }
+    public function fetchSubject($ClassId){
+        $Subject = DB::select('select * from subjects where ClassId = ?', [$ClassId]);
+
+        return response()->json([
+            'status' => 1,
+            'Subject' => $Subject
+        ]);
+    }
+
+
+
+
+
 
     public function processAddStudent(Request $request){
 
@@ -160,26 +169,43 @@ class DashbosrdController extends Controller
 
     //ShowConnectingTeacherWithSubject
     public function ShowConnectingTeacherWithSubject(Request $request){
-        $Teachers = Teacher::select('teacher_id','firstname','lastname')->get();
-        $Subjects = Subject::select('Subject_id','sub_name')->get();
+        // $Subjects = Subject::select('idS','sub_name')->get();
+        $Teachers = Teacher::select('idT','firstname','lastname')->get();
+        $Majors = Major::select('MajorId','name')->get();
 
 
-        return view('secretary.Connecting_teacher_with_Subject',compact('Teachers','Subjects'));
-    }
-    public function ConnectingTeacherWithSubject(Request $request){
-        // subject_teacher
-        $teacher = Teacher::find($request->Teacher);
-        $teacher->Subjects()->attach($request->Subjects);
-
-
-        
-        return 'success';
-
+        return view('secretary.Connecting_teacher_with_Subject',compact('Teachers','Majors'));
     }
 
 
 
+    public function ConnectingTeacherWithSubject(Request $request)
+    {
+
+
+    try {
+            // البحث عن المعلم
+            $subject = Subject::findOrFail($request->Subjects);
+
+            // البحث عن الصف
+            $division = Division::findOrFail($request->division);
+    
+            // البحث عن المواد
+            $teachers = Teacher::findOrFail($request->Teacher);
+    
+            // إرفاق المعلم بالمواد
+            $subject->Teachers()->attach($teachers);
+            $division->Teachers()->attach($teachers);
+    
+            return 'تم بنجاح';
+        } catch (\Exception $e) {
+            return 'حدث خطأ: ' . $e->getMessage();
+        }
+    }   
 
 
 
 }
+
+        // $teacher = Teacher::find(1);
+        // $teacher->Subjects()->attach(1);

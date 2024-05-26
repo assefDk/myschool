@@ -26,6 +26,10 @@ Route::group([
     Route::get('profileStudent',[ApiLoginStudentController::class,"profileStudent"])->name('profileStudent');
     //logoutStudent
     Route::get('logoutStudent',[ApiLoginStudentController::class,"logoutStudent"])->name('logoutStudent');
-
+    //nodeStudent
     Route::get('nodeSudent',[ApiLoginStudentController::class,"nodeSudent"])->name('nodeSudent');
+    //HomeworkSudent
+    Route::get('HomeworkSudent',[ApiLoginStudentController::class,"HomeworkSudent"])->name('HomeworkSudent');
+
+
 });
