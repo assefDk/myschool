@@ -69,6 +69,21 @@
             <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('teacher.addHomework')}}"> add Homework</a>
         </div>
 
+        <br>
+        <br>
+
+
+        <div class="d-flex justify-content-center ml-3">
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('teacher.addAnnouncment')}}"> add Announcment</a>
+        </div>
+
+        <br>
+        <br>
+
+        <div class="d-flex justify-content-center ml-3">
+            <a class="btn bsb-btn-xl btn-primary py-3 " href=""> Show All Announcment</a>
+        </div>
+
 
 
 

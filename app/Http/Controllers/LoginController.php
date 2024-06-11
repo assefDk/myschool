@@ -35,14 +35,16 @@ class LoginController extends Controller
                 $userMentor = Secretary::where('username',$request->username)->first();
                 $token = $userMentor->createToken("API TOKEN")->plainTextToken;
                 
-                return redirect()->route('admin.dashboard' , ['token' => $token]);
+                // return redirect()->route('admin.dashboard' , ['token' => $token]);
+                return redirect()->route('admin.dashboard');
             }
 
             elseif(Auth::guard('secretary')->attempt(['username' => $request->username, 'password' => $request->password])) {
                 $userMentor = Secretary::where('username',$request->username)->first();
                 $token = $userMentor->createToken("API TOKEN")->plainTextToken;
 
-                return redirect()->route('secretary.dashbosrd',['token' => $token]);
+                // return redirect()->route('secretary.dashbosrd',['token' => $token]);
+                return redirect()->route('secretary.dashbosrd');
             }
 
             elseif(Auth::guard('teacher')->attempt(['username' => $request->username, 'password' => $request->password])){
@@ -54,9 +56,9 @@ class LoginController extends Controller
 
             elseif(Auth::guard('mentor')->attempt(['username' => $request->username , 'password' => $request->password])){
                 $userMentor = Mentor::where('username',$request->username)->first();
-                $token = $userMentor->createToken("API TOKEN")->plainTextToken;
+                // $token = $userMentor->createToken("API TOKEN")->plainTextToken;
 
-                return redirect()->route('mentor.dashbosrd', ['token' => $token]);
+                return redirect()->route('mentor.dashbosrd');
             }
             else {
                 return redirect()->route('login')->with('error', 'إما أن اسم المستخدم أو كلمة المرور غير صحيحة');

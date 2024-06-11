@@ -158,7 +158,19 @@ class ApiLoginStudentController extends Controller
 
     }
 
+    public function WeeklyScheduleSudent(){
+        $WeeklySchedule = Db::select('select WeeklySchedule from divisions where 
 
+            DivisionId= ?' ,[auth()->user()->DivisionId]);
+
+
+        return response()->json([
+            'status' => true,
+            'data' => $WeeklySchedule,
+            'auth' =>auth()->user()->studentId
+        ], 200);
+
+    }
 
 
 

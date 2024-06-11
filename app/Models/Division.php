@@ -41,6 +41,10 @@ class Division extends Model
         return $this->belongsToMany(Teacher::class,'divisions_teachers','DivisionId','idT');
     }
 
+    public function Announcment()
+    {
+        return $this->belongsToMany(Announcment::class,'announcments_divisions','DivisionId','IdAnnouncment');
+    }
 
 
 

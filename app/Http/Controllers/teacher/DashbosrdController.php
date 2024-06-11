@@ -205,4 +205,12 @@ class DashbosrdController extends Controller
     }
 
 
+
+
+    // Announcment
+    public function addAnnouncment(){
+        return view('teacher.add-announcment');
+    }
+
+
 }

@@ -3,7 +3,7 @@
    <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>mentor Add Note</title>
+      <title>mentor Add Weekly Schedule</title>
       <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
         {{-- لاستقبال ال api --}}
     <meta name="_token" content="{{ csrf_token() }}">
@@ -22,44 +22,26 @@
     </div>
 
     
-    <h1 class="text-center">Add Note</h1>
+    <h1 class="text-center">Add Weekly Schedule</h1>
     <a type="button" class="btn btn-primary" href="dashbosrd">back</a>
 
         @if (Session::has('success'))
             <div class="alert alert-success">{{Session::get('success')}}</div>
         @endif
 
-   
-    <br>
-    <br>
-    <br>
-    <br>
 
-    
 
-    
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
 
-    <form action="{{Route('mentor.ProcessAddNote')}}" method="POST">
+
+
+    <form action="{{Route('mentor.ProcessAddWeeklySchedule')}}" method="post" enctype="multipart/form-data">
         @csrf
         
-
-        <br>
-
-        <div style="display: flex; justify-content: center;">
-            <h4> Content note</h4>
-        </div>
-        <div style="display: flex; justify-content: center;">
-            <br>
-            <div class="form-outline w-50 mb-4" style="display: block">
-                <textarea class="form-control" id="content" name="content" rows="9" ></textarea>
-            </div>
-            <br>
-        </div>
-        
-        
-        <br>
-        <br>
-
         <label>majors</label>
         <select name="Majors" id="Majors">
             @foreach ($Majors as $m)
@@ -94,24 +76,24 @@
             <p class="invalid-feedback">{{$message}}</p>
         @enderror
 
-
-
+    
+        
         <br>
         <br>
-        <label>Student</label>
-        <select name="Student" id="Student">
-            <option>Select Student</option>
-        </select>
-        @error('Student')
+
+
+        <div class="mb-3" style="text-align: center; align-items: center; justify-content: center; display: flex;">
+            <input class="form-control w-50 " name="image" type="file" id="image">
+        </div>
+        @error('image')
             <p class="invalid-feedback">{{$message}}</p>
         @enderror
 
-
-
-        <div style="display: flex; justify-content: center;">
-            <button type="submit" class="btn bsb-btn-xl btn-success py-3 "> add note</button>
+        <br>
+        <br>
+        <div>
+            <button type="submit" class="btn bsb-btn-xl btn-success py-3 "> publish</button>
         </div>
-
 
     </form>
 
@@ -191,37 +173,6 @@
 
 
 
-
-
-            //#Student
-            $('#division').change(function(){
-            var division_id = $(this).val();
-
-            console.log(division_id);
-
-
-            $.ajax({
-                url : '{{ url("mentor/fetchStudent/")}}/'+ division_id,
-                type : 'post',
-                datatype: 'json',
-                success: function(response){
-                    console.log(response);
-                    if(response['status'] > 0)
-                    {
-                        //من اجل تفضية ال opthin بعد كل تحديد
-                        $('#Student').find('option:not(:first)').remove();
-                        $.each(response['students'],function(key,value){
-                            $("#Student").append("<option value='"+value['studentId']+"'>"+value['firstName']+"</option>");
-                        });
-                    }
-                }
-            });
-
-        });
-
-
-
-        
 
     });
 

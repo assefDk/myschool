@@ -3,7 +3,7 @@
    <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Laravel 11 Multi Auth :: mentor</title>
+      <title>add WeeklySchedule</title>
       <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
    </head>
    <body class="bg-light">
@@ -60,7 +60,32 @@
         <div class="d-flex justify-content-center ml-3">
             <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('mentor.showAddNote')}}"> add note</a>
         </div>
+        <br>
+        <br>
 
+        <div class="d-flex justify-content-center ml-3">
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('mentor.addWeeklySchedule')}}"> add Weekly Schedule</a>
+        </div>
+
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+
+
+
+
+
+
+
+        @foreach ($Division as $D)
+            <img src="{{asset($D->WeeklySchedule) }}" alt="Img">
+        @endforeach
+        
 
 
 

@@ -30,6 +30,7 @@ Route::group([
     Route::get('nodeSudent',[ApiLoginStudentController::class,"nodeSudent"])->name('nodeSudent');
     //HomeworkSudent
     Route::get('HomeworkSudent',[ApiLoginStudentController::class,"HomeworkSudent"])->name('HomeworkSudent');
-
+    //WeeklyScheduleSudent
+    Route::get('WeeklyScheduleSudent',[ApiLoginStudentController::class,"WeeklyScheduleSudent"])->name('WeeklyScheduleSudent');
 
 });

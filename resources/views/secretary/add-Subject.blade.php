@@ -58,7 +58,7 @@
 
         <label>majors</label>
         <select name="Majors" id="Majors">
-            <option value="" disabled>select Major</option>
+            <option value="">select Major</option>
             @foreach ($Majors as $m)
                 <option value="{{$m->MajorId}}">{{$m->name}}</option>
             @endforeach

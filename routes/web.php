@@ -154,8 +154,9 @@ Route::group(['prefix' => 'teacher'],function(){
 
 
 
-
-
+            //Announcment
+            Route::get('/addAnnouncment',[TeacherDashbosrdController::class,'addAnnouncment'])->name('teacher.addAnnouncment');
+            Route::post('/ProcessAddAnnouncment', [TeacherDashbosrdController::class,'ProcessAddAnnouncment'])->name('teacher.ProcessAddAnnouncment');
 
 
             
@@ -174,6 +175,9 @@ Route::group(['prefix' => 'mentor'],function(){
             Route::get('/dashbosrd',[MentorDashbosrdController::class,'index'])->name('mentor.dashbosrd');
 
 
+            // Route::get('/dashbosrdfake/{id}',[MentorDashbosrdController::class,'dashbosrdfake'])->name('mentor.dashbosrdfake');
+
+
             //fetch
             Route::post('/fetchClass/{id}',[SecretaryDashbosrdController::class,'fetchClass'])->name('fetchClass');
             Route::post('/fetchDivision/{id}',[SecretaryDashbosrdController::class,'fetchDivision'])->name('fetchDivision');
@@ -181,6 +185,14 @@ Route::group(['prefix' => 'mentor'],function(){
             //showAddNote
             Route::get('/showAddNote', [MentorDashbosrdController::class,'showAddNote'])->name('mentor.showAddNote');
             Route::post('/ProcessAddNote', [MentorDashbosrdController::class,'ProcessAddNote'])->name('mentor.ProcessAddNote');
+
+            //showAddNote
+            Route::get('/addWeeklySchedule', [MentorDashbosrdController::class,'addWeeklySchedule'])->name('mentor.addWeeklySchedule');
+            Route::post('/ProcessAddWeeklySchedule', [MentorDashbosrdController::class,'ProcessAddWeeklySchedule'])->name('mentor.ProcessAddWeeklySchedule');
+
+            
+
+
         });
     });
 });
