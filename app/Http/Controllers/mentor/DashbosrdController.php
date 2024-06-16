@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\mentor;
 
 use Carbon\Carbon;
+use App\Models\note;
 use App\Models\Major;
+use App\Models\Mentor;
+use App\Models\Division;
+use App\Models\Announcment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Mentor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
-use App\Models\note;
-use App\Models\Division;
 
 
 
@@ -72,7 +73,7 @@ class DashbosrdController extends Controller
         
         $n = new note();
         
-        $n->creator = auth()->user()->firstname .' '. auth()->user()->lastname;
+        $n->creator = 'mentor ' . auth()->user()->firstname .' '. auth()->user()->lastname;
         $n->content = $request->content;
         $n->Date_Created = Carbon::now();
         $n->studentId = $request->Student;
@@ -124,6 +125,89 @@ class DashbosrdController extends Controller
         }
         return redirect()->route("mentor.addWeeklySchedule")->withInput()->withErrors($validatot);
 
+    }
+
+
+
+
+
+    // Announcment
+    public function addAnnouncment(){
+
+        $Majors = Major::all();
+        return view('mentor.add-announcment',compact('Majors'));
+    }
+
+
+    public function processAddAnnouncment(Request $request){
+
+        $test = false;
+        if($request->has('teachers'))
+        {
+            $test = true;
+            $anew =  new Announcment();
+
+            $anew->creator = 'mentor ' . auth()->user()->firstname .' '. auth()->user()->lastname;
+            $anew->title = $request->title;
+            $anew->content = $request->content;
+            $anew->Date_Created = Carbon::now();
+            $anew->Expiry_date = $request->date;
+            $anew->status  = 't';
+    
+
+            $anew->save();
+        }
+
+
+        if($request->division != "Select division")
+        {
+            $test = true;
+            $anew =  new Announcment();
+
+            $anew->creator = 'mentor ' . auth()->user()->firstname .' '. auth()->user()->lastname;
+            $anew->title = $request->title;
+            $anew->content = $request->content;
+            $anew->Date_Created = Carbon::now();
+            $anew->Expiry_date = $request->date;
+
+            $anew->save();
+
+            
+            try {
+
+
+                // البحث عن الصف
+                $division = Division::findOrFail($request->division);
+
+                $division->Announcment()->attach($anew);
+
+            } catch (\Exception $e) {
+                return 'حدث خطأ: ' . $e->getMessage();
+            }
+        }
+
+        if($test){
+            return redirect()->route("mentor.addAnnouncment")->with('success',"Added successfully Announcment");
+        }else{
+            return redirect()->route("mentor.addAnnouncment")->with('error',"Please enter correct information");
+        }
+
+
+
+        // return $request;
+    }
+
+
+
+
+
+    public function showAnnouncment(){
+        $Announcments = db::select('select * from announcments where 
+            status = "m" or
+            status = "sstm" 
+        ');
+
+        return view('mentor.show-announcment' ,compact('Announcments'));
     }
 
 

@@ -205,6 +205,20 @@ class DashbosrdController extends Controller
 
 
 
+
+
+
+    public function showAnnouncment(){
+        $Announcments = db::select('select * from announcments where 
+            status = "se" or
+            status = "sstm" 
+        ');
+
+        return view('secretary.show-announcment' ,compact('Announcments'));
+    }
+
+
+
 }
 
         // $teacher = Teacher::find(1);

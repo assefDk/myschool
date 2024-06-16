@@ -3,7 +3,7 @@
    <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>teacher Add Announcment</title>
+      <title>mentor Add Announcment</title>
       <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
           {{-- لاستقبال ال api --}}
     <meta name="_token" content="{{ csrf_token() }}">
@@ -95,6 +95,9 @@
     @if (Session::has('success'))
         <div class="alert alert-success">{{Session::get('success')}}</div>
     @endif
+    @if (Session::has('error'))
+        <div class="alert alert-danger">{{Session::get('success')}}</div>
+    @endif
 
    
     <br>
@@ -103,14 +106,14 @@
     <br>
 
 
-    <h1>teacher</h1>
+    <h1>mentor</h1>
     
 
     
 
 
 
-    <form action="{{Route('teacher.ProcessAddAnnouncment')}}" method="POST">
+    <form action="{{Route('mentor.ProcessAddAnnouncment')}}" method="POST">
     {{-- <form action="" method="POST"> --}}
         @csrf
         <div style="display: flex; justify-content: center;">
@@ -140,6 +143,11 @@
         <br>
         <br>
         <br>
+
+        <label class="container ">Teachers
+            <input type="checkbox" name="teachers" id="teachers">
+            <span class="checkmark"></span>
+        </label>
 
 
         <div style="display: flex; justify-content: center; align-items: center">
@@ -255,7 +263,7 @@
                 }
 
                 $.ajax({
-                    url : '{{ url("teacher/fetchClass/")}}/'+ Majors,
+                    url : '{{ url("mentor/fetchClass/")}}/'+ Majors,
                     type : 'post',
                     datatype: 'json',
                     success: function(response){
@@ -283,7 +291,7 @@
 
 
                 $.ajax({
-                    url : '{{ url("teacher/fetchDivision/")}}/'+ class_id,
+                    url : '{{ url("mentor/fetchDivision/")}}/'+ class_id,
                     type : 'post',
                     datatype: 'json',
                     success: function(response){

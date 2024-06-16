@@ -15,8 +15,12 @@ return new class extends Migration
             $table->id('IdAnnouncment');
 
 
+            $table->string('title');
             $table->string('creator');
             $table->string('content');
+            $table->date('Date_Created');
+            $table->date('Expiry_date');
+            $table->enum('status',['d','sud','se','t','m','sstm'])->default('d');
 
 
             $table->timestamps();

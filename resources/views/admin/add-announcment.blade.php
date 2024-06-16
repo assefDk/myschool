@@ -93,6 +93,10 @@
     @if (Session::has('success'))
         <div class="alert alert-success">{{Session::get('success')}}</div>
     @endif
+    @if (Session::has('error'))
+        <div class="alert alert-danger">{{Session::get('error')}}</div>
+    @endif
+    
 
    
     <br>
@@ -130,7 +134,7 @@
 
 
         <label class="container">All
-            <input type="checkbox" name="all" id="all">
+            <input type="checkbox" name="all" id="all" onchange="checkAll(this)">
             <span class="checkmark"></span>
         </label>
 
@@ -150,10 +154,15 @@
         </label>
         
         <label class="container">secretary
-            <input type="checkbox" name="secretary" id="secretary">
+            <input type="checkbox" name="secretary" id="secretary" >
             <span class="checkmark"></span>
         </label>
 
+        <div style="display: flex; justify-content: center; align-items: center">
+
+            <label>end date</label>
+            <input type="date" name="date" id="date">
+        </div>
 
 
         <div style="display: flex; justify-content: center;">
@@ -166,6 +175,26 @@
                 
     </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+    <script>
+
+        var checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+        function checkAll(mycheckbox) {
+            if (mycheckbox.checked) {
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = true;
+                });
+            } else {
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = false;
+                });
+            }
+        }
+
+
+
+    </script>   
 
 </html> 
 

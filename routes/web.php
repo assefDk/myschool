@@ -124,7 +124,11 @@ Route::group(['prefix' => 'secretary'],function(){
             Route::get('/ShowConnectingTeacherWithSubject',[SecretaryDashbosrdController::class,'ShowConnectingTeacherWithSubject'])->name('secretary.ShowConnectingTeacherWithSubject');
             Route::post('/ConnectingTeacherWithSubject',[SecretaryDashbosrdController::class,'ConnectingTeacherWithSubject'])->name('secretary.ConnectingTeacherWithSubject');
 
-            
+
+
+            //Announcment
+            Route::get('/showAnnouncment',[SecretaryDashbosrdController::class,'showAnnouncment'])->name('secretary.showAnnouncment');
+
         });
     });
 });
@@ -142,7 +146,9 @@ Route::group(['prefix' => 'teacher'],function(){
             Route::post('/fetchClass/{id}',[TeacherDashbosrdController::class,'fetchClass'])->name('fetchClass');
             Route::post('/fetchDivision/{id}',[TeacherDashbosrdController::class,'fetchDivision'])->name('fetchDivision');
             Route::post('/fetchSubject/{id}',[TeacherDashbosrdController::class,'fetchSubject'])->name('fetchSubject');
-            Route::post('/fetchSubject/{div}',[TeacherDashbosrdController::class,'fetchSubject'])->name('fetchSubject');
+            Route::post('/fetchStudent/{id}',[TeacherDashbosrdController::class,'fetchStudent'])->name('fetchStudent');
+
+
 
 
 
@@ -156,10 +162,18 @@ Route::group(['prefix' => 'teacher'],function(){
 
             //Announcment
             Route::get('/addAnnouncment',[TeacherDashbosrdController::class,'addAnnouncment'])->name('teacher.addAnnouncment');
-            Route::post('/ProcessAddAnnouncment', [TeacherDashbosrdController::class,'ProcessAddAnnouncment'])->name('teacher.ProcessAddAnnouncment');
+            Route::post('/ProcessAddAnnouncment', [TeacherDashbosrdController::class,'processAddAnnouncment'])->name('teacher.ProcessAddAnnouncment');
+            Route::get('/showAnnouncment',[TeacherDashbosrdController::class,'showAnnouncment'])->name('teacher.showAnnouncment');
 
 
-            
+
+
+            //Node
+            Route::get('/addNode',[TeacherDashbosrdController::class,'addNode'])->name('teacher.addNode');
+            Route::post('/ProcessAddNodet', [TeacherDashbosrdController::class,'ProcessAddNodet'])->name('teacher.ProcessAddNode');
+
+
+
         });
     });
 });
@@ -182,17 +196,21 @@ Route::group(['prefix' => 'mentor'],function(){
             Route::post('/fetchClass/{id}',[SecretaryDashbosrdController::class,'fetchClass'])->name('fetchClass');
             Route::post('/fetchDivision/{id}',[SecretaryDashbosrdController::class,'fetchDivision'])->name('fetchDivision');
             Route::post('/fetchStudent/{id}',[MentorDashbosrdController::class,'fetchStudent'])->name('fetchStudent');
+
             //showAddNote
             Route::get('/showAddNote', [MentorDashbosrdController::class,'showAddNote'])->name('mentor.showAddNote');
             Route::post('/ProcessAddNote', [MentorDashbosrdController::class,'ProcessAddNote'])->name('mentor.ProcessAddNote');
 
-            //showAddNote
+            //addWeeklySchedule
             Route::get('/addWeeklySchedule', [MentorDashbosrdController::class,'addWeeklySchedule'])->name('mentor.addWeeklySchedule');
             Route::post('/ProcessAddWeeklySchedule', [MentorDashbosrdController::class,'ProcessAddWeeklySchedule'])->name('mentor.ProcessAddWeeklySchedule');
 
             
-
-
+            //Announcment
+            Route::get('/addAnnouncment',[MentorDashbosrdController::class,'addAnnouncment'])->name('mentor.addAnnouncment');
+            Route::post('/processAddAnnouncment', [MentorDashbosrdController::class,'processAddAnnouncment'])->name('mentor.ProcessAddAnnouncment');
+            Route::get('/showAnnouncment',[MentorDashbosrdController::class,'showAnnouncment'])->name('mentor.showAnnouncment');
+            
         });
     });
 });

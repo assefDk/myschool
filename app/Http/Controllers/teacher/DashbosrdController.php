@@ -7,6 +7,8 @@ use App\Models\Major;
 use App\Models\Student;
 use App\Models\Division;
 use App\Models\Homework;
+use App\Models\Announcment;
+use App\Models\note;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -123,6 +125,20 @@ class DashbosrdController extends Controller
     }
 
 
+    public function fetchStudent($division){
+        $students = DB::select('select * from students where DivisionId = ?', [$division]);
+
+        return response()->json([
+            'status' => 1,
+            'students' => $students
+        ]);
+
+    }
+
+
+
+
+
 
     public function fetchSubject($div){
 
@@ -209,8 +225,117 @@ class DashbosrdController extends Controller
 
     // Announcment
     public function addAnnouncment(){
-        return view('teacher.add-announcment');
+        
+        
+        $a = auth()->user()->idT;
+
+        $Majors = DB::select('select * from majors , the_classes , subjects ,teachers ,subject_teacher
+            where 
+            majors.MajorId = the_classes.MajorId and
+
+            the_classes.ClassId = subjects.ClassId and
+
+            subject_teacher.idT = teachers.idT and  
+            subject_teacher.idS = subjects.idS and
+
+            subject_teacher.idT = ?
+        ',[$a]);
+
+        return view('teacher.add-announcment' ,compact('Majors'));
     }
+
+
+    public function processAddAnnouncment(Request $request){
+
+        $anew =  new Announcment();
+
+
+
+        $anew->creator = 'teacher ' . auth()->user()->firstname .' '. auth()->user()->lastname;
+        $anew->title = $request->title;
+        $anew->content = $request->content;
+        $anew->Date_Created = Carbon::now();
+        $anew->Expiry_date = $request->date;
+
+        $anew->save();
+
+        
+        try {
+
+
+            // البحث عن الصف
+            $division = Division::findOrFail($request->division);
+
+            $division->Announcment()->attach($anew);
+
+            return 'تم بنجاح';
+
+        } catch (\Exception $e) {
+            return 'حدث خطأ: ' . $e->getMessage();
+        }
+
+        // return $request;
+    }
+    public function showAnnouncment(){
+        $Announcments = db::select('select * from announcments where 
+            status = "t" or
+            status = "sstm" 
+        ');
+
+        return view('teacher.show-announcment' ,compact('Announcments'));
+    }
+
+
+
+
+
+
+
+
+
+
+    //  Node
+    public function addNode(){
+
+        $teacher = auth()->user()->idT;
+
+
+        $Majors = DB::select('select  majors.name ,majors.MajorId from  divisions_teachers , divisions , majors ,the_classes
+        
+            where
+
+            the_classes.MajorId = majors.MajorId  and
+            divisions.ClassId = the_classes.ClassId  and
+
+            divisions_teachers.DivisionId = divisions.DivisionId and
+            divisions_teachers.idT = ?
+
+        ',[$teacher]);
+
+
+        return view('teacher.add-note', compact('Majors'));
+    }
+
+
+
+
+
+    public function ProcessAddNodet(Request $request){
+        
+        
+        $n = new note();
+        
+        $n->creator = 'teacher ' . auth()->user()->firstname .' '. auth()->user()->lastname;
+        $n->content = $request->content;
+        $n->Date_Created = Carbon::now();
+        $n->studentId = $request->Student;
+
+        $n->save();
+
+        return redirect()->route('teacher.addNode')->with('success','The note was added successfully');
+
+    }
+
 
 
 }

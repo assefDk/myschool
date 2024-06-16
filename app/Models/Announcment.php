@@ -15,8 +15,17 @@ class Announcment extends Model
     protected $fillable=[
         'IdAnnouncment',
         'creator',
-        'content'
+        'content',
+        'title',
+        'Date_Created',
+        'Expiry_date',
+        'status'
+
     ];
+
+
+
+
 
     public function Division()
     {

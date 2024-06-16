@@ -3,20 +3,21 @@
 namespace App\Http\Controllers\admin;
 
 use Carbon\Carbon;
+use App\Models\Major;
 use App\Models\Mentor;
 use App\Models\Teacher;
-use App\Models\Secretary;
 use App\Models\Division;
-use App\Models\Major;
 use App\Models\TheClass;
+use App\Models\Secretary;
 
 
+use App\Models\Announcment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 
 
 class AdminController extends Controller
@@ -326,6 +327,10 @@ class AdminController extends Controller
         $tm = 0;
         $theMajor = [];
         
+        if (($request->get('ClassName') == "ClassTen" || $request->get('ClassName') == "ClassTwelfth" || $request->get('ClassName') == "ClassThirteenth") && $request->majorname == "General") {
+            return redirect()->route("admin.dashboard")->with('error', 'The input error');
+        }
+
         foreach (Major::all() as $m){
             if($request->majorname == $m->name){
                 $tm = 1;
@@ -371,14 +376,9 @@ class AdminController extends Controller
             }
             
             if($request->get('ClassName') == "ClassTen" ||$request->get('ClassName') == "ClassTwelfth"||$request->get('ClassName') == "ClassThirteenth"){
-                
                 if(Db::select('select * from the_classes where
-                    ClassName = :ClassName and
-                    MajorId = :MajorId ' 
-                , [
-                'ClassName' => $request->get('ClassName'),
-                'MajorId' => $theMajor->MajorId,
-                ]))
+                ClassName = :ClassName and MajorId = :MajorId ' 
+                , ['ClassName' => $request->get('ClassName'), 'MajorId' => $theMajor->MajorId,]))
                 {
                     $test = TheClass::where(['ClassName' => $request->get('ClassName'),'MajorId' => $theMajor->MajorId])->first();
                     $theclass = $test;
@@ -388,7 +388,6 @@ class AdminController extends Controller
                 $tc = 0;
                 break;
             }
-            
         }
 
         if($tc == 0){
@@ -412,10 +411,8 @@ class AdminController extends Controller
             elseif($request->get('division') == $d->Numberdvs && $d->ClassId == $theclass->ClassId){
                 $td = 1;
                 return redirect()->route("admin.dashboard")->with('error','The class exists 2');
-            }
-            
+            }   
         }
-
         if($td == 0){
             DB::table('divisions')->insert([
                 'Numberdvs' => $request->get('division'),
@@ -435,55 +432,117 @@ class AdminController extends Controller
 
         $remainingDivisions = DB::table('divisions')->where('ClassId', $ClassId)->count();
         if ($remainingDivisions === 0) {
-
             DB::table('the_classes')->where('ClassId', $ClassId)->delete();
         }
-
         return redirect()->route('admin.showallclass')->with('success', 'Class deleted successfully.');
     }
 
     public function showallclass(){
-        $classes = DB::select('select * from  the_classes c,divisions d, majors m
-        where 
-        c.MajorId = m.MajorId 
-        and c.ClassId = d.ClassId 
-        ');
-
+        $classes = DB::select('select * from  the_classes c,divisions d, majors m where c.MajorId = m.MajorId and c.ClassId = d.ClassId ');
         return view('admin.show-all-class',compact('classes'));
     }
 
 
+    
     
     //add announcment
     public function addAnnouncment(){
         return view('admin.add-announcment');
     }
 
+
     public function processAnnouncment(Request $request){
+
+        $test = false;
 
         if($request->has('all') )
         {
-            return redirect()->route('admin.addAnnouncment')->with('success', 'I am all');
+            $test = true;
+            $anew =  new Announcment();
+
+            $anew->creator = 'manager ' . auth()->user()->firstname .' '. auth()->user()->lastname;
+            $anew->title = $request->title;
+            $anew->content = $request->content;
+            $anew->Date_Created = Carbon::now();
+            $anew->Expiry_date = $request->date;
+            $anew->status  = 'sstm';
+    
+            $anew->save();
+
+            return redirect()->route('admin.addAnnouncment')->with('success', 'added  Successfully Announcment');
         }
+
         if($request->has('students'))
         {
-            return redirect()->route('admin.addAnnouncment')->with('success', 'I am students');
+            $test = true;
+            $anew =  new Announcment();
+
+            $anew->creator = 'manager ' . auth()->user()->firstname .' '. auth()->user()->lastname;
+            $anew->title = $request->title;
+            $anew->content = $request->content;
+            $anew->Date_Created = Carbon::now();
+            $anew->Expiry_date = $request->date;
+            $anew->status  = 'sud';
+    
+
+            $anew->save();
+
         }
 
         if($request->has('secretary'))
         {
-            return redirect()->route('admin.addAnnouncment')->with('success', 'I am secretary');
+            $test = true;
+            $anew =  new Announcment();
+
+            $anew->creator = 'manager ' . auth()->user()->firstname .' '. auth()->user()->lastname;
+            $anew->title = $request->title;
+            $anew->content = $request->content;
+            $anew->Date_Created = Carbon::now();
+            $anew->Expiry_date = $request->date;
+            $anew->status  = 'se';
+    
+
+            $anew->save();
+
         }
         if($request->has('mentors'))
         {
-            return redirect()->route('admin.addAnnouncment')->with('success', 'I am mentors');
-        }
-        if($request->has('Teachers'))
-        {
-            return redirect()->route('admin.addAnnouncment')->with('success', 'I am Teachers');
-        }
+            $test = true;
+            $anew =  new Announcment();
 
-        return redirect()->route('admin.addAnnouncment')->with('success', 'The announcment has been published successfully.');
+            $anew->creator = 'manager ' . auth()->user()->firstname .' '. auth()->user()->lastname;
+            $anew->title = $request->title;
+            $anew->content = $request->content;
+            $anew->Date_Created = Carbon::now();
+            $anew->Expiry_date = $request->date;
+            $anew->status  = 'm';
+    
+
+            $anew->save();
+
+        }
+        if($request->has('teachers'))
+        {
+            $test = true;
+            $anew =  new Announcment();
+
+            $anew->creator = 'manager ' . auth()->user()->firstname .' '. auth()->user()->lastname;
+            $anew->title = $request->title;
+            $anew->content = $request->content;
+            $anew->Date_Created = Carbon::now();
+            $anew->Expiry_date = $request->date;
+            $anew->status  = 't';
+    
+
+            $anew->save();
+        }
+        
+        if($test){
+            return redirect()->route('admin.addAnnouncment')->with('success', 'added  Successfully Announcment');
+        }else{
+            return redirect()->route('admin.addAnnouncment')->with('error', 'Please enter correct information');
+        }
+        
     }
 
 

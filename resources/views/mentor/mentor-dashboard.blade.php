@@ -10,7 +10,7 @@
         <nav class="navbar navbar-expand-md bg-white shadow-lg bsb-navbar bsb-navbar-hover bsb-navbar-caret">
             <div class="container">
                 <a class="navbar-brand" href="#">
-                   <strong>Laravel 11 Multi Auth :: mentor</strong>
+                    <strong>Laravel 11 Multi Auth :: mentor</strong>
                 </a>
                 <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
@@ -40,14 +40,14 @@
             </div>
         </nav>
         <div class="container">
-           <div class="card border-0 shadow my-5">
+            <div class="card border-0 shadow my-5">
                 <div class="card-header bg-light">
                     <h3 class="h5 pt-2">Dashboard</h3>
                 </div>
                 <div class="card-body">
                     You are logged in !!
                 </div>
-           </div>
+            </div>
         </div>
 
 
@@ -69,6 +69,8 @@
 
 
 
+
+
         <br>
         <br>
         <br>
@@ -77,14 +79,27 @@
 
 
 
+        <div class="d-flex justify-content-center ml-3">
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('mentor.addAnnouncment')}}"> add Announcment</a>
+        </div>
+
+
+        <br>
+        <br>
+        <br>
+
+        <div class="d-flex justify-content-center ml-3">
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('mentor.showAnnouncment')}}"> Shoe Announcment</a>
+        </div>
 
 
 
 
 
-        @foreach ($Division as $D)
+
+        {{-- @foreach ($Division as $D)
             <img src="{{asset($D->WeeklySchedule) }}" alt="Img">
-        @endforeach
+        @endforeach --}}
         
 
 
@@ -93,6 +108,6 @@
 
 
 
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-   </body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    </body>
 </html>

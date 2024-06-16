@@ -175,6 +175,31 @@ class ApiLoginStudentController extends Controller
 
 
 
+    public function AnnouncmentStudent(){
+
+        $announcments = Db::select('select * from announcments,announcments_divisions where
+
+                announcments.status = "sstm" or  
+                announcments.status = "sud" or
+                announcments.IdAnnouncment = announcments_divisions.IdAnnouncment and
+                announcments_divisions.DivisionId = ?' 
+            ,[auth()->user()->DivisionId]);
+
+
+        // $announcments = Db::select('select * from announcments where
+        //     status = sstm 
+        // ');
+
+
+        return response()->json([
+            'status' => true,
+            'data' => $announcments,
+            'auth' =>auth()->user()->studentId
+        ], 200);
+
+    }
+
+
 
 
 

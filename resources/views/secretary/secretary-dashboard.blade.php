@@ -84,6 +84,14 @@
 
 
 
+        <br>
+        <br>
+        <div class="d-flex justify-content-center">
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('secretary.showAnnouncment')}}">show Announcment</a>               
+        </div>
+
+
+
         
 
 

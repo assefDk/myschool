@@ -81,7 +81,15 @@
         <br>
 
         <div class="d-flex justify-content-center ml-3">
-            <a class="btn bsb-btn-xl btn-primary py-3 " href=""> Show All Announcment</a>
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('teacher.addNode')}}"> Add Node</a>
+        </div>
+
+        <br>
+        <br>
+            
+        
+        <div class="d-flex justify-content-center ml-3">
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('teacher.showAnnouncment')}}"> Show All Announcment</a>
         </div>
 
 

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>show all secretary</h1>
+    <h1>show all teacher</h1>
 
 
 
