@@ -93,14 +93,14 @@
         </div>
 
 
+        <br>
+        <br>
+        <br>
 
 
-
-
-        {{-- @foreach ($Division as $D)
-            <img src="{{asset($D->WeeklySchedule) }}" alt="Img">
-        @endforeach --}}
-        
+        <div class="d-flex justify-content-center ml-3">
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('mentor.showMarks')}}"> show marks</a>
+        </div>
 
 
 

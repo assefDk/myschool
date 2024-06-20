@@ -111,7 +111,7 @@ class AdminController extends Controller
     }
 
     public function showallsecretary(){
-        $user = Secretary::all();
+        $user = db::select('select * from secretaries where isadmin != 1');
         return view('admin.show-all-secretary',compact('user'));
     }
 
@@ -544,6 +544,36 @@ class AdminController extends Controller
         }
         
     }
+
+
+
+    //search
+    public function search(){
+        $Secretarys = Secretary::all();
+        $Mentors = Mentor::all();
+        $Teachers = Teacher::all();
+
+
+        return view('admin.searchEmp',compact('Secretarys','Mentors','Teachers'));
+    }
+
+    public function processsearch(Request $request){
+        
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

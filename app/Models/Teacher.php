@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+//use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class Teacher extends Authenticatable
 {
@@ -59,13 +63,11 @@ class Teacher extends Authenticatable
     }
 
     
-    
-
+    public function subject_teacher (): HasMany
+    {
+        return $this->hasMany(Subject_Teacher::class,'id');
+    }
 
 
 }
 
-    // public function subjects()
-    // {
-    //     return $this->belongsToMany(Subject::class, 'user_subject', 'user_id', 'subject_id');
-    // }

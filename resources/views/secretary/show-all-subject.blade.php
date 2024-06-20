@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>show all subject</title>
     {{-- bootstrip css --}}
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>show all mentor</h1>
+    <h1>show all subject</h1>
 
 
 
@@ -30,18 +30,24 @@
           </thead>
           <tbody>
             <tr>
-                @foreach ($subjects as $s)
-                <tr>
-                    <th scope="row">   {{$s->idS}}</th>
-                    <th scope="row">   {{$s->sub_name}}</th>
-                    <th scope="row">   {{$s->max}}</th>
-                    <th scope="row">   {{$s->min}}</th>
-                    <th scope="row">   {{$s->ClassId}}</th>
-                    <td scope="row"> <button type="button" class="btn btn-success">Edit</button></td>
-                    <td scope="row"> <button type="button" class="btn btn-danger">Delete</button></td>  
-                </tr>    
-                @endforeach
-            </tr>
+              @foreach ($subjects as $s)
+              <tr>
+                  <th scope="row">   {{$s->idS}}</th>
+                  <th scope="row">   {{$s->sub_name}}</th>
+                  <th scope="row">   {{$s->max}}</th>
+                  <th scope="row">   {{$s->min}}</th>
+                  <th scope="row">   {{$s->ClassId}}</th>
+                  <th scope="row"> <a href="{{route('secretary.editsubject',$s->idS)}}" class="btn btn-success">Edit</a></th>
+
+                  <th scope="row">
+                    <form action="{{route('secretary.destroysubject',$s->idS)}}" method="post">
+                      @csrf
+                      @method('delete')
+                      <input class="btn btn-danger" type="submit" value="Delete" >
+                    </form> 
+                  </th></tr>    
+              @endforeach
+          </tr>
             
           </tbody>
         </table>

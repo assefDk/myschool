@@ -56,6 +56,7 @@
         @if (Session::has('success'))
             <div class="alert alert-success">{{Session::get('success')}}</div>
         @endif
+        
 
 
         <div class="d-flex justify-content-center">
@@ -90,6 +91,15 @@
             <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('secretary.showAnnouncment')}}">show Announcment</a>               
         </div>
 
+
+
+        <br>
+        <br>
+        {{-- bruce --}}
+        <div class="d-flex justify-content-center">
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('secretary.ShowSeperatingSubject')}}"> Seperating the subject</a>               
+        </div>
+        {{-- end bruce --}}
 
 
         

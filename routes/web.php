@@ -87,7 +87,16 @@ Route::group(['prefix' => 'admin'],function(){
             //Add Announcment
             Route::get('addAnnouncment',[AdminController::class,'addAnnouncment'])->name('admin.addAnnouncment');
             Route::post('processAnnouncment',[AdminController::class,'processAnnouncment'])->name('admin.processAnnouncment');
+    
             
+            // searchEmp
+            Route::get('Allemp',[AdminController::class,'search'])->name('admin.searchEmp');
+
+
+            // Route::post('searchEmp',[AdminController::class,'searchEmp'])->name('admin.searchEmp');
+
+
+
 
 
             Route::get('logout', [AdminDashbosrdController::class,'logout'])->name('admin.logout');
@@ -128,6 +137,23 @@ Route::group(['prefix' => 'secretary'],function(){
 
             //Announcment
             Route::get('/showAnnouncment',[SecretaryDashbosrdController::class,'showAnnouncment'])->name('secretary.showAnnouncment');
+
+
+            //new 
+            //Edit subject
+            Route::get('/editsubject/{id}', [SecretaryDashbosrdController::class,'editsubject'])->name('secretary.editsubject');
+            Route::post('updatesubject/{id}',[SecretaryDashbosrdController::class,'updatesubject'])->name('secretary.updatesubject');
+
+
+            //Destroy subject
+            Route::delete('admin.destroysubject/{id}',[SecretaryDashbosrdController::class,'destroysubject'])->name('secretary.destroysubject');
+
+
+            //seperating subjects
+            Route::get('/ShowSeperatingSubject', [SecretaryDashbosrdController::class,'ShowSeperatingSubject'])->name('secretary.ShowSeperatingSubject');
+            Route::post('/SeperatingSubject',[SecretaryDashbosrdController::class,'SeperatingSubject'])->name('secretary.SeperatingSubject');
+
+            //end new 
 
         });
     });
@@ -174,6 +200,21 @@ Route::group(['prefix' => 'teacher'],function(){
 
 
 
+
+            Route::post('/fetchClass/{id}',[SecretaryDashbosrdController::class,'fetchClass'])->name('fetchClass');
+            Route::post('/fetchDivision/{id}',[SecretaryDashbosrdController::class,'fetchDivision'])->name('fetchDivision');
+            Route::post('/fetchStudent/{id}',[MentorDashbosrdController::class,'fetchStudent'])->name('fetchStudent');
+
+
+            Route::get('/showaddMark', [TeacherDashbosrdController::class,'showaddMark'])->name('teacher.showaddMark');
+            Route::post('/addMark', [TeacherDashbosrdController::class,'addMark'])->name('teacher.addMark');
+            Route::post('/ProcessAddMark/{id}', [TeacherDashbosrdController::class,'ProcessAddMark'])->name('teacher.ProcessAddMark');
+            Route::post('/fetchsubtea/{id}',[TeacherDashbosrdController::class,'fetchsubtea'])->name('fetchsubtea');
+
+
+
+
+
         });
     });
 });
@@ -210,7 +251,27 @@ Route::group(['prefix' => 'mentor'],function(){
             Route::get('/addAnnouncment',[MentorDashbosrdController::class,'addAnnouncment'])->name('mentor.addAnnouncment');
             Route::post('/processAddAnnouncment', [MentorDashbosrdController::class,'processAddAnnouncment'])->name('mentor.ProcessAddAnnouncment');
             Route::get('/showAnnouncment',[MentorDashbosrdController::class,'showAnnouncment'])->name('mentor.showAnnouncment');
+           
             
+
+
+
+
+
+
+            // new
+            Route::get('/showMarks', [MentorDashbosrdController::class,'showMarks'])->name('mentor.showMarks');
+            Route::post('/fetchMClass/{id}',[MentorDashbosrdController::class,'fetchMClass'])->name('mentor.fetchMClass');
+            Route::post('/showStudents', [MentorDashbosrdController::class,'showStudents'])->name('mentor.showStudents');
+            Route::get('/studentDetails/{id}', [MentorDashbosrdController::class,'studentDetails'])->name('mentor.studentDetails');
+            //test
+            Route::get('/test/{id}', [MentorDashbosrdController::class,'isSeperated'])->name('mentor.test');
+
+            Route::get('/markDetails/{id}', [MentorDashbosrdController::class,'markDetails'])->name('mentor.markDetails');
+            // end new
+
+
+
         });
     });
 });

@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Student;
-use App\Models\TheClass;
+use App\Models\Mark;
 use App\Models\Major;
+use App\Models\Student;
 use App\Models\Division;
+use App\Models\TheClass;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 
 class ApiLoginStudentController extends Controller
 {
@@ -61,29 +62,6 @@ class ApiLoginStudentController extends Controller
 
 
 
-    
-    
-
-
-
-
-    //befor profileStudent
-    // public function profileStudent()
-    // {
-    //     // Retrieve the authenticated user's profile data
-    //     // $studentData = auth()->guard('student')->user();
-    //     $studentData = auth()->user();
-    
-    //     // Return a JSON response with the profile information
-    //     return response()->json([
-    //         'status' => true,
-    //         'message' => 'Profile information',
-    //         'data' => $studentData,
-    //         'id' => auth()->user()->studentId
-    //     ], 200);
-    // }
-
-
     // after profileStudent
     public function profileStudent()
     {
@@ -130,7 +108,7 @@ class ApiLoginStudentController extends Controller
 
 
 
-    public function nodeSudent(){
+    public function nodeStudent(){
         $nodes = Db::select('select * from notes where studentId = ?' ,[auth()->user()->studentId]);
 
         
@@ -198,6 +176,62 @@ class ApiLoginStudentController extends Controller
         ], 200);
 
     }
+
+
+
+
+
+
+    public function showsubjectStudent(){
+        $subjects = Db::select('select * from subjects , subject_teacher where
+                subjects.belongs_to is null and
+                subject_teacher.idS = subjects.idS and
+
+                subject_teacher.DivisionId = ?' 
+            ,[auth()->user()->DivisionId]);
+            $fulter = [];
+
+        foreach($subjects as $s){
+            $fulter[$s->idS] = $s->sub_name;
+        }
+
+        return response()->json([
+            'status' => true,
+            'data' => $fulter,
+            'auth' =>auth()->user()->studentId
+        ], 200);
+
+    }
+
+
+
+
+
+    public function showMarkStudent(){
+        $st = Student::find(auth()->user()->studentId);
+
+        $mar = $st->Mark;
+
+
+        return response()->json([
+            'status' => true,
+            'data' => $mar,
+            'auth' =>auth()->user()->studentId
+        ], 200);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -45,9 +45,6 @@ class Student extends Authenticatable
 
 
 
-
-
-
     public function Division()
     {
         return $this->hasMany(Division::class , 'DivisionId');
@@ -62,7 +59,27 @@ class Student extends Authenticatable
     {
         return $this->hasMany(Major::class , 'MajorId');
     }
-    
+    public function Mark()
+    {
+        return $this->hasMany(Mark::class,'student_id');
+    }
+
+    public function Markn()
+    {
+        return $this->hasMany(Mark::class,'student_id')->whereIn('sub_tea_id', function ($query) {
+            $query->select('sub_tea_id')
+                ->from('subject_teacher')
+                
+                ->whereIn('idS', function ($query) {
+                    $query->select('idS')
+                        ->from('subjects')
+                        ->whereNull('belongs_to');
+                        
+                });
+        })
+        ;
+    }
+
 
 
 }

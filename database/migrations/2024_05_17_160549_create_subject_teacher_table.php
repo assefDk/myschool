@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->foreignId('idS')->references('idS')->on('subjects');
             $table->foreignId('idT')->references('idT')->on('teachers');
-            
+            $table->foreignId('DivisionId')->references('DivisionId')->on('divisions');
             
 
             $table->timestamps();

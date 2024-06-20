@@ -16,7 +16,11 @@ return new class extends Migration
             $table->string('sub_name');
             $table->integer('max')->default(0);
             $table->integer('min')->default(0);
-
+            $table->double('max_mid');
+            $table->double('max_in_class');
+            $table->double('max_homework');
+            $table->double('max_final');
+            $table->foreignId('belongs_to')->nullable()->constrained('subjects', 'idS');
             $table->foreignId('ClassId')->references('ClassId')->on('the_classes');
             
 

@@ -93,7 +93,13 @@
         </div>
 
 
+        <br>
 
+        {{-- bruce --}}
+        <div class="d-flex justify-content-center ml-3">
+            <a class="btn bsb-btn-xl btn-primary py-3 " href="{{Route('teacher.showaddMark')}}"> add mark</a>
+        </div>
+        {{-- end bruce --}}
 
 
 
