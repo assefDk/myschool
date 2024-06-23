@@ -223,7 +223,7 @@ class DashbosrdController extends Controller
         where
         st.DivisionId = ?
         and
-           st.Subject_id in (select Subject_id from subjects
+           st.idS in (select idS from subjects
         where belongs_to is null and ClassId = ? ))
         GROUP by m.student_id,stu.firstName,stu.fathernName,stu.lastName 
         
@@ -336,6 +336,11 @@ class DashbosrdController extends Controller
     }
 
 
+
+
+    public function ProfileMentor(){   
+        return view('mentor.profile');
+    }
 
 }
 

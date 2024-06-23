@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Models\Mark;
 use App\Models\Major;
 use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\Division;
 use App\Models\TheClass;
+use App\Models\Subject_Teacher;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -182,44 +185,130 @@ class ApiLoginStudentController extends Controller
 
 
 
-    public function showsubjectStudent(){
-        $subjects = Db::select('select * from subjects , subject_teacher where
-                subjects.belongs_to is null and
-                subject_teacher.idS = subjects.idS and
 
-                subject_teacher.DivisionId = ?' 
-            ,[auth()->user()->DivisionId]);
-            $fulter = [];
 
-        foreach($subjects as $s){
-            $fulter[$s->idS] = $s->sub_name;
+
+
+
+
+
+
+
+
+
+            
+            
+
+
+
+
+
+
+
+
+
+    // public function showsubjectStudent(){
+        
+            // $subjects = Db::select('select * from subjects , subject_teacher where
+                //         subjects.belongs_to is null and
+                //         subject_teacher.idS = subjects.idS and
+
+                //         subject_teacher.DivisionId = ?' 
+                //     ,[auth()->user()->DivisionId]);
+
+
+
+            // $subjects = Subject::where('belongs_to', null)
+            //     ->where('DivisionId', auth()->user()->DivisionId)
+            //     ->whereIn('idS', function ($query) use ($mark) {
+            //         $query->select('idS')
+            //             ->from('subject_teacher')
+            //             ->where('idS',$mark->subject_teacher->subject->idS);
+            //     })
+            //     ->get();
+
+
+
+
+
+
+        // $subjects = Subject::where('belongs_to', null)
+        //     ->where('ClassId', auth()->user()->ClassId)
+        //     ->get();
+        
+
+
+
+
+            
+
+        // $fulter = [
+        //     'subject' => $subjects->sub_name,
+
+        // ];
+
+        // foreach($subjects as $s){
+        //     $fulter[$s->idS] = $s->sub_name;
+        // }
+        
+
+
+        public function showsubjectStudent()
+        {
+            $subjects = Subject::where('belongs_to', null)
+                ->where('ClassId', auth()->user()->ClassId)
+                ->get();
+    
+    
+    
+    
+            return response()->json([
+                'status' => true,
+                'data' => $subjects,
+                'auth' => auth()->user()->studentId
+            ], 200);
         }
-
-        return response()->json([
-            'status' => true,
-            'data' => $fulter,
-            'auth' =>auth()->user()->studentId
-        ], 200);
-
-    }
-
-
-
-
-
-    public function showMarkStudent(){
-        $st = Student::find(auth()->user()->studentId);
-
-        $mar = $st->Mark;
-
-
-        return response()->json([
-            'status' => true,
-            'data' => $mar,
-            'auth' =>auth()->user()->studentId
-        ], 200);
-
-    }
+    
+    
+    
+    
+    
+        public function showMarkStudent(Request $request)
+        {
+    
+    
+    
+    
+            $st = Student::find(auth()->user()->studentId);
+            $div = $st->DivisionId;
+            $subtea = Subject_Teacher::all()->where('idS', $request->idS)->where('DivisionId', $div)->first();
+            $t = Teacher::all()->find($subtea->idT);
+            $tname =  $t->firstname . " " . $t->lastname;
+            $mark = Mark::all()->where('student_id', $st->studentId)->where('sub_tea_id', $subtea->sub_tea_id)->first();
+            $subject = Subject::all()->find($request->idS);
+           
+    
+    
+    
+            $mar = [
+                ['mark' => $mark->homework, 'name' => "homework", 'mx' => $subject->max_homework,'max'=>$subject->max,'min'=>$subject->min,'teacher'=>$tname], ['mark' => $mark->in_class, 'name' => "in_class", 'mx' => $subject->max_in_class,'max'=>$subject->max,'min'=>$subject->min,'teacher'=>$tname], ['mark' => $mark->mid, 'name' => "mid", 'mx' => $subject->max_mid,'max'=>$subject->max,'min'=>$subject->min,'teacher'=>$tname], ['mark' => $mark->final, 'name' => "final", 'mx' => $subject->max_final,'max'=>$subject->max,'min'=>$subject->min,'teacher'=>$tname]
+            ];
+    
+    
+    
+    
+    
+            //$mar = [$ma, $tname, ['max' => $subject->max, 'min' => $subject->min]];
+    
+    
+    
+    
+            return response()->json([
+                'status' => true,
+                'data' => $mar,
+                'auth' => auth()->user()->studentId
+            ], 200);
+        }
 
 
 

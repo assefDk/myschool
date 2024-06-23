@@ -1,19 +1,66 @@
-<!doctype html>
-<html lang="en">
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>techer Add Note</title>
-      <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+
+
+
+@extends('components.layout_teacher')
+
+
+
+@section('titleteacher','techer Add Note')
+
+
+@section('contentteacher')
         {{-- لاستقبال ال api --}}
     <meta name="_token" content="{{ csrf_token() }}">
-   </head>
-   <body style="background: #596275">
-    
+
+    @if (Session::has('error'))
+    <div style="display: flex; align-items: center; justify-content: center; color: red ">
+        <div class="alert alert-danger">{{Session::get('error')}}</div>
+    </div>
+    @endif
+    @if (Session::has('success'))
+    <div style="display: flex; align-items: center; justify-content: center; color: green ">
+        <div class="alert alert-success">{{Session::get('success')}}</div>
+    </div>
+    @endif
+    <style>
+        body {
+          text-align: center;
+          background-color: #f7f7f7;
+        }
+        form {
+          margin: 20px auto;
+          max-width: 400px;
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .form-group {
+          margin-bottom: 20px;
+        }
+        
+        label {
+          display: block;
+          margin-bottom: 5px;
+          color: #000;
+          font-weight: bold;
+        }
+        
+        select,
+        textarea {
+          width: calc(100% - 22px);
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+        
+        
+        </style>
 
 
 
-    <h1>techer Add Note</h1>
+    {{-- <h1>techer Add Note</h1>
 
 
 
@@ -123,11 +170,63 @@
         </div>
 
 
+    </form> --}}
+
+
+
+
+
+    <h1>Enter The Note</h1>
+    <form action="{{Route('teacher.ProcessAddNode')}}" method="POST">
+        @csrf
+        <div class="form-group">
+            <label>Majors :</label>
+            <select name="Majors" id="Majors">
+            <option value="" hidden>select majors</option>
+            @foreach ($Majors as $m)
+                <option value="{{$m->MajorId}}">{{$m->name}}</option>
+            @endforeach
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label>Class :</label>
+            <select name="class" id="class">
+            <option hidden>Select Class</option>
+            </select>
+        </div>
+        @error('class')
+            <p class="invalid-feedback">{{$message}}</p>
+        @enderror
+
+
+
+
+        <div class="form-group">
+            <label>Division :</label>
+            <select name="division" id="division">
+                <option >Select division</option>
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label>Student  :</label>
+            <select name="Student" id="Student">
+                <option >Select Student </option>
+            </select>
+        </div>
+
+
+
+        <div class="form-group">
+            <label for="content">Text Note :</label>
+            <textarea id="content" name="content" rows="4"></textarea>
+        </div>
+
+        <button type="submit">Add Note</button>
     </form>
-
-
-
-
 
 
 
@@ -246,10 +345,9 @@
 
 
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-</body>
-</html> 
 
 
+
+@endsection
 
 

@@ -91,9 +91,31 @@ Route::group(['prefix' => 'admin'],function(){
             
             // searchEmp
             Route::get('Allemp',[AdminController::class,'search'])->name('admin.searchEmp');
+            Route::post('searchEmp',[AdminController::class,'processsearch'])->name('admin.processsearch');
+            
+            
+            // Profile
+            Route::get('Profile',[AdminController::class,'Profile'])->name('admin.Profile');
+            
+            
+            //test
+            Route::get('nav',[AdminController::class,'la'])->name('admin.nav');
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            Route::get('employers_managment',[AdminController::class,'employers_managment'])->name('admin.employers_managment');
 
+            
+            // add emp
+            Route::get('add_emp',[AdminController::class,'add_emp'])->name('admin.add_emp');
+            Route::post('/processaddEmp', [AdminController::class,'processaddEmp'])->name('admin.processaddEmp');
 
-            // Route::post('searchEmp',[AdminController::class,'searchEmp'])->name('admin.searchEmp');
 
 
 
@@ -155,6 +177,16 @@ Route::group(['prefix' => 'secretary'],function(){
 
             //end new 
 
+
+
+
+             // Profile
+             Route::get('Profile',[SecretaryDashbosrdController::class,'ProfileSecretary'])->name('secretary.Profile');
+
+
+
+
+
         });
     });
 });
@@ -173,9 +205,6 @@ Route::group(['prefix' => 'teacher'],function(){
             Route::post('/fetchDivision/{id}',[TeacherDashbosrdController::class,'fetchDivision'])->name('fetchDivision');
             Route::post('/fetchSubject/{id}',[TeacherDashbosrdController::class,'fetchSubject'])->name('fetchSubject');
             Route::post('/fetchStudent/{id}',[TeacherDashbosrdController::class,'fetchStudent'])->name('fetchStudent');
-
-
-
 
 
 
@@ -201,7 +230,7 @@ Route::group(['prefix' => 'teacher'],function(){
 
 
 
-            Route::post('/fetchClass/{id}',[SecretaryDashbosrdController::class,'fetchClass'])->name('fetchClass');
+            // Route::post('/fetchClass/{id}',[SecretaryDashbosrdController::class,'fetchClass'])->name('fetchClass');
             Route::post('/fetchDivision/{id}',[SecretaryDashbosrdController::class,'fetchDivision'])->name('fetchDivision');
             Route::post('/fetchStudent/{id}',[MentorDashbosrdController::class,'fetchStudent'])->name('fetchStudent');
 
@@ -211,6 +240,12 @@ Route::group(['prefix' => 'teacher'],function(){
             Route::post('/ProcessAddMark/{id}', [TeacherDashbosrdController::class,'ProcessAddMark'])->name('teacher.ProcessAddMark');
             Route::post('/fetchsubtea/{id}',[TeacherDashbosrdController::class,'fetchsubtea'])->name('fetchsubtea');
 
+
+
+
+
+            //Profile
+            Route::get('Profilee',[TeacherDashbosrdController::class,'ProfileTeacher'])->name('teacher.Profile');
 
 
 
@@ -269,6 +304,14 @@ Route::group(['prefix' => 'mentor'],function(){
 
             Route::get('/markDetails/{id}', [MentorDashbosrdController::class,'markDetails'])->name('mentor.markDetails');
             // end new
+
+
+
+            //Profile
+            Route::get('Profile',[MentorDashbosrdController::class,'ProfileMentor'])->name('mentor.Profile');
+
+
+
 
 
 

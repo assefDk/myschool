@@ -1,106 +1,122 @@
-<!doctype html>
-<html lang="en">
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>mentor Add Weekly Schedule</title>
-      <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+@extends('components.layout_mentor')
+
+
+
+@section('titlementor','Add WeeklySchedule')
+
+
+@section('contentmentor')
+
+@if (Session::has('error'))
+    <div style="display: flex; align-items: center; justify-content: center; color: red ">
+        <div class="alert alert-danger">{{Session::get('error')}}</div>
+    </div>
+    @endif
+    @if (Session::has('success'))
+    <div style="display: flex; align-items: center; justify-content: center; color: green ">
+        <div class="alert alert-success">{{Session::get('success')}}</div>
+    </div>
+    @endif
+
+
+
+
+      <link rel="stylesheet" href="{{ asset('./styles/StyleNour.css') }}" />
         {{-- لاستقبال ال api --}}
     <meta name="_token" content="{{ csrf_token() }}">
-   </head>
-   <body style="background: #596275">
+
+    <style>
+        body { 
+        text-align: center;
+        background-color: #f7f7f7;
+        margin: 20px;
+      }
+      #btn{display: flex; margin: 0px 0px 0px 20px;}
+      h1 {
+        color: #000;
+        margin: 20px;
+      }
+      form {
+        margin: 20px auto;
+        max-width: 400px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow:  4px 4px rgba(0, 0, 0, 0.5);
+      }
+      
+      .form-group {
+        margin-bottom: 20px;
+      }
+      
+     .form-group .schedule-header label {
+        display: block;
+        margin-bottom: 5px;
+        color: #000;
+        font-weight: bold;
+      }
+      
+      select,
+      input[type='file'] {
+        width: calc(100% - 22px);
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      </style>
+
+
+
     
 
-    <div>
-        @if ($errors->any())
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{$error}}</li>
-                @endforeach
-            </ul>    
-        @endif
-    </div>
-
-    
-    <h1 class="text-center">Add Weekly Schedule</h1>
-    <a type="button" class="btn btn-primary" href="dashbosrd">back</a>
-
-        @if (Session::has('success'))
-            <div class="alert alert-success">{{Session::get('success')}}</div>
-        @endif
 
 
 
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-
-
-
+    <h1> Add Weekly Schedule</h1>
     <form action="{{Route('mentor.ProcessAddWeeklySchedule')}}" method="post" enctype="multipart/form-data">
         @csrf
-        
-        <label>majors</label>
-        <select name="Majors" id="Majors">
-            @foreach ($Majors as $m)
-                <option value="{{$m->MajorId}}">{{$m->name}}</option>
-            @endforeach
-        </select>
-        @error('name')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
 
-        
-        <br>
-        <br>
-        <label>class</label>
-        <select name="class" id="class">
-            <option>Select Class</option>
-        </select>
-        @error('class')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
 
-        
-
-        
-        <br>
-        <br>
-        <label>division</label>
-        <select name="division" id="division">
-            <option >Select division</option>
-        </select>
-        @error('division')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
-
+        <div class="form-group">
+            <div class="Schedule-header">
+            <label>Majors :</label>
+            <select name="Majors" id="Majors">
+                <option value="" hidden>select Major</option>
+                @foreach ($Majors as $m)
+                    <option value="{{$m->MajorId}}">{{$m->name}}</option>
+                @endforeach
+            </select>
+        </div>
     
-        
-        <br>
-        <br>
 
-
-        <div class="mb-3" style="text-align: center; align-items: center; justify-content: center; display: flex;">
-            <input class="form-control w-50 " name="image" type="file" id="image">
-        </div>
-        @error('image')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
-
-        <br>
-        <br>
-        <div>
-            <button type="submit" class="btn bsb-btn-xl btn-success py-3 "> publish</button>
+        <div class="form-group">
+            <label>Class :</label>
+            <select name="class" id="class">
+            <option hidden>Select Class</option>
+            </select>
         </div>
 
+
+        <div class="form-group">
+            <label>Division :</label>
+            <select name="division" id="division">
+            <option >Select division</option>
+            </select>
+        </div>
+        </div>
+
+        <div class="form-group">
+            <label class="Blod">Weekly Schedule File :</label>
+            <input type="file" id="image" name="image">
+            <label for="image" class="file-label">Upload a file</label>
+        </div>
+
+
+
+
+
+      <button type="submit">Publish</button>
     </form>
-
-
-
-
-
 
 
 
@@ -168,20 +184,12 @@
                 });
 
             });
-
-
-
-
-
-
     });
-
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-</body>
-</html> 
 
 
+@endsection
 
 

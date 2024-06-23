@@ -30,6 +30,21 @@ class AdminController extends Controller
     }
     public function processaddsecretary(Request $request){
 
+        $checkdate = Carbon::parse($request->birthdate);
+        
+        $now = Carbon::now();
+        $valid=false;
+        if ($checkdate->diffInYears($now) >= 18 && (!preg_match('/[0-9]/', $request->firstname))
+        && (!preg_match('/[0-9]/', $request->lastname))
+        &&(!preg_match('/[0-9]/', $request->fathername))
+        &&(!preg_match('/[0-9]/', $request->mothername))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->firstname))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->lastname))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->fathername))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->mothername))
+        
+           ){ $valid=true;}
+
         $validatot = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname'=> 'required',
@@ -45,7 +60,7 @@ class AdminController extends Controller
             'gender'=> 'required',
         ]);
 
-        if($validatot->passes()){
+        if($validatot->passes()&&$valid){
             $user = new Secretary();
             $user->firstname = $request->firstname;
             $user->lastname = $request->lastname;
@@ -65,6 +80,10 @@ class AdminController extends Controller
             return redirect()->route("admin.dashboard")->with('success','Added successfully secretary');
             
         }else{
+
+            if (!$valid)
+            return redirect()->route("admin.addsecretary")->with('error','please dont insert special symbols and make the age right');
+
             return redirect()->route("admin.addsecretary")->withInput()->withErrors($validatot);
         }
     }
@@ -74,6 +93,22 @@ class AdminController extends Controller
             return view('admin.edit-secretary',['secretary'=>$secretary->find($id)]);
     }
     public function updatesecretary(Request $request,$id){
+
+        $checkdate = Carbon::parse($request->birthdate);
+        
+        $now = Carbon::now();
+        $valid=false;
+        if ($checkdate->diffInYears($now) >= 18 && (!preg_match('/[0-9]/', $request->firstname))
+        && (!preg_match('/[0-9]/', $request->lastname))
+        &&(!preg_match('/[0-9]/', $request->fathername))
+        &&(!preg_match('/[0-9]/', $request->mothername))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->firstname))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->lastname))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->fathername))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->mothername))
+        
+           ){ $valid=true;}
+
         $validatot = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname'=> 'required',
@@ -89,7 +124,7 @@ class AdminController extends Controller
             'gender'=> 'required',
         ]);
 
-        if($validatot->passes()){
+        if($validatot->passes()&&$valid){
             
                 $to_update=Secretary::find($id);
                 $to_update->firstname=strip_tags($request->input('firstname'));
@@ -107,6 +142,9 @@ class AdminController extends Controller
             $to_update->save();
             return redirect()->route("admin.showallsecretary")->with('success',"edit successfully");
         }
+        if (!$valid)
+            return redirect()->back()->with('error','please dont insert special symbols and make the age right');
+
         return redirect()->back()->withInput()->withErrors($validatot);
     }
 
@@ -131,6 +169,22 @@ class AdminController extends Controller
     }
 
     public function processaddteacher(Request $request){
+        $checkdate = Carbon::parse($request->birthdate);
+        
+        $now = Carbon::now();
+        $valid=false;
+        if ($checkdate->diffInYears($now) >= 18 && (!preg_match('/[0-9]/', $request->firstname))
+        && (!preg_match('/[0-9]/', $request->lastname))
+        &&(!preg_match('/[0-9]/', $request->fathername))
+        &&(!preg_match('/[0-9]/', $request->mothername))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->firstname))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->lastname))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->fathername))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->mothername))
+        
+           ){ $valid=true;}
+
+
         $validatot = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname'=> 'required',
@@ -146,7 +200,7 @@ class AdminController extends Controller
             'gender'=> 'required',
         ]);
 
-        if($validatot->passes()){
+        if($validatot->passes()&&$valid){
             $user = new Teacher();
             $user->firstname = $request->firstname;
             $user->lastname = $request->lastname;
@@ -165,6 +219,10 @@ class AdminController extends Controller
 
             return redirect()->route("admin.dashboard")->with('success','Added successfully teacher');
         }else{
+            if (!$valid)
+            return redirect()->route("admin.addteacher")->with('error','please dont insert special symbols and make the age right');
+
+
             return redirect()->route("admin.addteacher")->withInput()->withErrors($validatot);
         }
     }
@@ -173,6 +231,20 @@ class AdminController extends Controller
             return view('admin.edit-teacher',['teacher'=>$teacher->find($id)]);
     }
     public function updateteacher(Request $request,$id){
+        $checkdate = Carbon::parse($request->birthdate);
+        
+        $now = Carbon::now();
+        $valid=false;
+        if ($checkdate->diffInYears($now) >= 18 && (!preg_match('/[0-9]/', $request->firstname))
+        && (!preg_match('/[0-9]/', $request->lastname))
+        &&(!preg_match('/[0-9]/', $request->fathername))
+        &&(!preg_match('/[0-9]/', $request->mothername))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->firstname))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->lastname))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->fathername))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->mothername))
+        
+           ){ $valid=true;}
         $validatot = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname'=> 'required',
@@ -187,7 +259,7 @@ class AdminController extends Controller
             'mothername'=> 'required',
             'gender'=> 'required',
         ]);
-        if($validatot->passes()){
+        if($validatot->passes()&&$valid){
                 $to_update=Teacher::find($id);
                 $to_update->firstname=strip_tags($request->input('firstname'));
                 $to_update->lastname=strip_tags($request->input('lastname'));
@@ -203,6 +275,11 @@ class AdminController extends Controller
             $to_update->save();
             return redirect()->route("admin.showallteacher")->with('success',"edit successfully");
         }
+
+        if (!$valid)
+        return redirect()->back()->with('error','please dont insert special symbols and make the age right');
+
+
         return redirect()->back()->withInput()->withErrors($validatot);
     }
     public function showallteacher(){
@@ -223,6 +300,21 @@ class AdminController extends Controller
         return view("admin.add-mentor");
     }
     public function processaddmentor(Request $request){
+        $checkdate = Carbon::parse($request->birthdate);
+        
+        $now = Carbon::now();
+        $valid=false;
+        if ($checkdate->diffInYears($now) >= 18 && (!preg_match('/[0-9]/', $request->firstname))
+        && (!preg_match('/[0-9]/', $request->lastname))
+        &&(!preg_match('/[0-9]/', $request->fathername))
+        &&(!preg_match('/[0-9]/', $request->mothername))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->firstname))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->lastname))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->fathername))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->mothername))
+        
+           ){ $valid=true;}
+
         $validatot = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname'=> 'required',
@@ -238,7 +330,7 @@ class AdminController extends Controller
             'gender'=> 'required',
         ]);
 
-        if($validatot->passes()){
+        if($validatot->passes()&&$valid){
             $user = new Mentor();
             $user->firstname = $request->firstname;
             $user->lastname = $request->lastname;
@@ -257,6 +349,10 @@ class AdminController extends Controller
 
             return redirect()->route("admin.dashboard")->with('success','Added successfully mentor');
         }else{
+            if (!$valid)
+            return redirect()->route("admin.addmentor")->with('error','please dont insert special symbols and make the age right');
+    
+
             return redirect()->route("admin.addmentor")->withInput()->withErrors($validatot);
         }
     }
@@ -265,6 +361,22 @@ class AdminController extends Controller
             return view('admin.edit-mentor',['mentor'=>$mentors->find($id)]);
     }
     public function updatementor(Request $request,$id){
+        $checkdate = Carbon::parse($request->birthdate);
+        
+        $now = Carbon::now();
+        $valid=false;
+        if ($checkdate->diffInYears($now) >= 18 && (!preg_match('/[0-9]/', $request->firstname))
+        && (!preg_match('/[0-9]/', $request->lastname))
+        &&(!preg_match('/[0-9]/', $request->fathername))
+        &&(!preg_match('/[0-9]/', $request->mothername))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->firstname))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->lastname))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->fathername))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->mothername))
+        
+           ){ $valid=true;}
+
+
         $validatot = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname'=> 'required',
@@ -279,7 +391,7 @@ class AdminController extends Controller
             'mothername'=> 'required',
             'gender'=> 'required',
         ]);
-        if($validatot->passes()){
+        if($validatot->passes()&&$valid){
                 $to_update=Mentor::find($id);
                 $to_update->firstname=strip_tags($request->input('firstname'));
                 $to_update->lastname=strip_tags($request->input('lastname'));
@@ -295,6 +407,9 @@ class AdminController extends Controller
             $to_update->save();
             return redirect()->route("admin.showallmentor")->with('success',"edit successfully");
         }
+        if (!$valid)
+            return redirect()->back()->with('error','please dont insert special symbols and make the age right');
+    
         return redirect()->back()->withInput()->withErrors($validatot);
     }
     public function showallmentor(){
@@ -557,14 +672,210 @@ class AdminController extends Controller
         return view('admin.searchEmp',compact('Secretarys','Mentors','Teachers'));
     }
 
-    public function processsearch(Request $request){
+
+    
+    // public function processsearch(Request $request , $name){
+        public function processsearch(Request $request){
+            // echo gettype();
+        // if($request->has('all'))
+        // {
+        //     return "a" ."'$request->name'";
+        // }
+        // dd($request->name);
         
+
+
+
+        $rec = new Secretary();
+        $reco = new Mentor ();
+        $recor = new Teacher();
+        $test = false;
+
+        if($request->has('secretary'))
+        {
+            $test = true;
+            $rec = Secretary::where('firstname',$request->name)->get();
+        }
+        if($request->has('mentors'))
+        {
+            $test = true;
+            $reco = Mentor::where('firstname',$request->name)->get();
+        }
+
+        if($request->has('teachers'))
+        {
+            $test = true;
+            $recor = Teacher::where('firstname',$request->name)->get();
+        }
+
+        if($test)
+
+            return redirect()->route('admin.employers_managment')->with('error', 'Please choose an option');
+        else
+            return redirect()->route('admin.searchEmp')->with('error', 'Please choose an option');
+
+
+    }
+
+
+    public function la(){
+        return view('components.layout');
+    }
+
+
+
+    public function Profile(){
+        return view('admin.profile');
+    }
+
+
+
+    public function employers_managment(){
+        return view('admin.employers_management');
     }
 
 
 
 
+    public function add_emp(){
+        return view('admin.add-emp');
+    }
 
+    
+    public function processaddEmp(Request $request){
+        if($request->has('secrutary'))
+        {
+            $validatot = Validator::make($request->all(), [
+                'firstname' => 'required',
+                'lastname'=> 'required',
+                'username'=> 'required',
+                'password' => 'required',
+                // 'phone'=> 'required|unique',
+                'phone'=> 'required',
+                'address'=> 'required',
+                'email' => 'required|email|unique:users',
+                'birthdate'=> 'required',
+                'fathername'=> 'required',
+                'mothername'=> 'required',
+                'gender'=> 'required',
+            ]);
+
+            if($validatot->passes()){
+                $user = new Secretary();
+                $user->firstname = $request->firstname;
+                $user->lastname = $request->lastname;
+                $user->username = $request->username;
+                $user->password = Hash::make($request->password); 
+                $user->phone = $request->phone;
+                $user->address = $request->address;
+                $user->email = $request->email;
+                $user->birthdate = $request->birthdate;
+                $user->fathername = $request->fathername;
+                $user->mothername = $request->mothername;
+                $user->gender = $request->gender;
+                $user->save();
+                
+                Auth::guard('secretary')->login($user);
+
+                return redirect()->route("admin.dashboard")->with('success','Added successfully secretary');
+                
+            }else{
+                return redirect()->route("admin.addsecretary")->withInput()->withErrors($validatot);
+            }
+
+        }
+        elseif($request->has('techer'))
+        {
+            $validatot = Validator::make($request->all(), [
+                'firstname' => 'required',
+                'lastname'=> 'required',
+                'username'=> 'required',
+                'password' => 'required',
+                // 'phone'=> 'required|unique',
+                'phone'=> 'required',
+                'address'=> 'required',
+                'email' => 'required|email|unique:users',
+                'birthdate'=> 'required',
+                'fathername'=> 'required',
+                'mothername'=> 'required',
+                'gender'=> 'required',
+            ]);
+    
+            if($validatot->passes()){
+                $user = new Teacher();
+                $user->firstname = $request->firstname;
+                $user->lastname = $request->lastname;
+                $user->username = $request->username;
+                $user->password = Hash::make($request->password); 
+                $user->phone = $request->phone;
+                $user->address = $request->address;
+                $user->email = $request->email;
+                $user->birthdate = $request->birthdate;
+                $user->fathername = $request->fathername;
+                $user->mothername = $request->mothername;
+                $user->gender = $request->gender;
+                $user->save();
+    
+                Auth::guard('teacher')->login($user);
+    
+                return redirect()->route("admin.dashboard")->with('success','Added successfully teacher');
+            }else{
+                return redirect()->route("admin.addteacher")->withInput()->withErrors($validatot);
+            }
+        }
+
+        elseif($request->has('mentor'))
+        {
+            $validatot = Validator::make($request->all(), [
+                'firstname' => 'required',
+                'lastname'=> 'required',
+                'username'=> 'required',
+                'password' => 'required',
+                // 'phone'=> 'required|unique',
+                'phone'=> 'required',
+                'address'=> 'required',
+                'email' => 'required|email|unique:users',
+                'birthdate'=> 'required',
+                'fathername'=> 'required',
+                'mothername'=> 'required',
+                'gender'=> 'required',
+            ]);
+    
+            if($validatot->passes()){
+                $user = new Mentor();
+                $user->firstname = $request->firstname;
+                $user->lastname = $request->lastname;
+                $user->username = $request->username;
+                $user->password = Hash::make($request->password); 
+                $user->phone = $request->phone;
+                $user->address = $request->address;
+                $user->email = $request->email;
+                $user->birthdate = $request->birthdate;
+                $user->fathername = $request->fathername;
+                $user->mothername = $request->mothername;
+                $user->gender = $request->gender;
+                $user->save();
+    
+                Auth::guard('mentor')->login($user);
+    
+                return redirect()->route("admin.dashboard")->with('success','Added successfully mentor');
+            }else{
+                return redirect()->route("admin.addmentor")->withInput()->withErrors($validatot);
+            }
+        }
+        else
+        {
+            return "ppp llll eee";
+        }
+
+
+
+
+
+
+
+      
+    }
 
 
 

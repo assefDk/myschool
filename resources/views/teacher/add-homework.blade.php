@@ -1,144 +1,135 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-        {{-- لاستقبال ال api --}}
-        <meta name="_token" content="{{ csrf_token() }}">
-    <title>add-homework</title>
-</head>
-<body>
+
+@extends('components.layout_teacher')
 
 
-    
-    <div>
-        @if ($errors->any())
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{$error}}</li>
-                @endforeach
-            </ul>    
-        @endif
+
+@section('titleteacher','Add Homework')
+@if (Session::has('error'))
+    <div style="display: flex; align-items: center; justify-content: center; color: red ">
+        <div class="alert alert-danger">{{Session::get('error')}}</div>
     </div>
-
-    <a class="btn btn-primary " href="{{Route('teacher.dashbosrd')}}"> back</a>
-
-
-
-    <br>
-    <br>
-
-
-    @if (Session::has('success'))
-        <div class="alert alert-success">{{Session::get('success')}}</div>
     @endif
-    <center>
-        <h1> add homework</h1>
-    </center>
+    @if (Session::has('success'))
+    <div style="display: flex; align-items: center; justify-content: center; color: green ">
+        <div class="alert alert-success">{{Session::get('success')}}</div>
+    </div>
+    @endif
+
+@section('contentteacher')
+<style>
+    body {
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(
+              135deg,
+              #052659,
+              #006aff)
+    }
+    
+    h1 {
+      color: #000;
+      margin: 20px;
+    }
+    
+    form {
+      margin: 20px auto;
+      max-width: 400px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow:  4px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .Blod {
+      display: block;
+      margin-bottom: 5px;
+      color: #000;
+      font-weight: bold;
+    }
+    
+    select,
+    input[type='date'],
+    input[type='file'] {
+      width: calc(100% - 22px);
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    button:hover {
+      background-color: #052659;
+    }
+    </style>
+
+    {{-- لاستقبال ال api --}}
+    <meta name="_token" content="{{ csrf_token() }}">
+
+<br>
 <br>
 
 
+        <form>
+            <h1> Add Homework</h1>
+
+            <div class="form-group">
+                <label class="Blod">Majors</label>
+                <select id="Major" name="Major">
+                    <option value="" hidden>select Major</option>
+                    @foreach ($Majors as $m)
+                        <option value="{{$m->MajorId}}">{{$m->name}}</option>
+                    @endforeach
+                </select>
+            </div>
 
 
 
+            <div class="form-group">
+                <label class="Blod">Class</label>
+                <select name="class" id="class">
+                    <option value="" hidden>Select Class</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="Blod">Division</label>
+                <select name="division" id="division">
+                    <option hidden>Select division</option>
+                </select>
+            </div>
 
 
-    <form action="{{Route('teacher.ProcessAddHomework')}}" method="POST" enctype="multipart/form-data">
-        @csrf
-
-
-
-        <div class="mb-3" style="text-align: center; align-items: center; justify-content: center; display: flex;">
-            <label>majors</label>
-            <select name="Major" id="Major">
-                <option value="">select Major</option>
-                @foreach ($Majors as $m)
-                    <option value="{{$m->MajorId}}">{{$m->name}}</option>
-                @endforeach
-            </select>
-            @error('name')
-                <p class="invalid-feedback">{{$message}}</p>
-            @enderror
-        </div>
-
-        
-        <br>
-        <br>
-        <div class="mb-3" style="text-align: center; align-items: center; justify-content: center; display: flex;">
-            <label>class</label>
-            <select name="class" id="class">
-                <option>Select Class</option>
-            </select>
-            @error('class')
-                <p class="invalid-feedback">{{$message}}</p>
-            @enderror
-        </div>
-        
-
-        
-        <br>
-        <br>
-        <div class="mb-3" style="text-align: center; align-items: center; justify-content: center; display: flex;">
-            <label>division</label>
-            <select name="division" id="division">
-                <option >Select division</option>
-            </select>
-            @error('division')
-                <p class="invalid-feedback">{{$message}}</p>
-            @enderror
-        </div>
+            <div class="form-group">
+                <label class="Blod">Subject</label>
+                <select name="Subject" id="Subject">
+                    <option hidden>Select Subject</option>
+                </select>
+            </div>
 
 
 
-        <br>
-        <br>
-        <div class="mb-3" style="text-align: center; align-items: center; justify-content: center; display: flex;">
-            <label>Subject</label>
-            <select name="Subject" id="Subject">
-                <option >Select Subject</option>
-            </select>
-            @error('division')
-                <p class="invalid-feedback">{{$message}}</p>
-            @enderror
-        </div>
-
-
-
-
-        <br>
-        <br>
-
-
-            <div class="mb-3" style="text-align: center; align-items: center; justify-content: center; display: flex;">
-                <label for="">end date</label>
+            <div class="form-group">
+                <label for="deadline">End Date Homework</label>
                 <input type="date" name="endDate">
             </div>
 
-        <br>
-            <div class="mb-3" style="text-align: center; align-items: center; justify-content: center; display: flex;">
-                <input class="form-control w-50 " name="file" type="file" id="formFile">
+
+            <div class="form-group">
+                <label class="Blod">Homework File</label>
+                <input name="file" type="file" id="file">
+                <label for="file" class="file-label">Uplaod a file</label>
             </div>
 
-
-        <br>
-        <br>
-
-
-            <div class="mb-3" style="text-align: center; align-items: center; justify-content: center; display: flex;">
-                <button type="submit" class="btn bsb-btn-xl btn-success py-3 "> Add Homework</button>
-            </div>
-    </form>
-
+            <button type="submit">Add Homework</button>
+        </form>
 
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-
-
-
     <script>
         //all
         $.ajaxSetup({
@@ -151,6 +142,12 @@
         $(document).ready(function(){
             $('#Major').change(function(){
                 var Major = $(this).val();
+
+
+
+                // console.log(Major);
+
+
 
                 if(Major == ""){
                     var Major = 0;
@@ -204,8 +201,6 @@
             });
 
 
-
-
             //#Subject
             $('#division').change(function(){
                 var div = $('#division').val();
@@ -233,16 +228,7 @@
                 });
 
             });
-
-
-
-
     });
 
-
     </script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-</body>
-</html>
+@endsection

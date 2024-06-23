@@ -8,6 +8,9 @@ use App\Models\note;
 use App\Models\Major;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\Subject_Teacher;
+
+use App\Models\Teacher;
 use App\Models\Division;
 use App\Models\Homework;
 use App\Models\Announcment;
@@ -158,7 +161,6 @@ class DashbosrdController extends Controller
 
         $Subject = DB::select('select  * from  subjects , the_classes , divisions ,teachers ,subject_teacher 
             where
-            the_classes.ClassId =  subjects.ClassId and
             the_classes.ClassId = subjects.ClassId and
 
 
@@ -172,6 +174,15 @@ class DashbosrdController extends Controller
             divisions.DivisionId = ? and
 
             subject_teacher.idT = ?',[$div,$a]);
+            $i=0;
+            foreach ($Subject as $s)
+            {
+                if (app('App\Http\Controllers\mentor\DashbosrdController')->isSeperated($s->idS))
+                unset($Subject[$i]);
+                $i++;
+
+
+            }
 
 
 
@@ -427,6 +438,9 @@ class DashbosrdController extends Controller
 
 
     public function fetchsubtea($stdc){
+        $a = auth()->user()->idT;
+
+
         $std=Student::all()->find($stdc);
         $cl=$std->ClassId;
         $div=$std->DivisionId;
@@ -435,10 +449,21 @@ class DashbosrdController extends Controller
             st.idS = s.idS and
             st.idT = t.idT and
             s.ClassId = ?  and
-            st.DivisionId = ?'
+            st.DivisionId = ? and
+            st.idT = ?' 
 
-        ,[$cl,$div]);
+        ,[$cl,$div,$a]);
 
+            $i=0;
+            foreach ($sub_tea as $s)
+            {   
+                $sub=Subject_Teacher::find($s->sub_tea_id);
+                if (app('App\Http\Controllers\mentor\DashbosrdController')->isSeperated($sub->idS))
+                unset($sub_tea[$i]);
+                $i++;
+
+
+            }
 
 
 
@@ -449,6 +474,10 @@ class DashbosrdController extends Controller
     }
 
 
+
+    public function ProfileTeacher(){
+        return view('teacher.profile');
+    }
 
 
 

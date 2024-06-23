@@ -1,17 +1,57 @@
-<!doctype html>
-<html lang="en">
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>mentorAdd mark</title>
-      <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+@extends('components.layout_teacher')
+
+
+
+@section('titleteacher','show Add mark')
+
+
+@section('contentteacher')
+
+
+<style>
+    body {
+      text-align: center;
+      background: linear-gradient(
+              135deg,
+              #052659,
+              #006aff)
+    }
+    form {
+      margin: 20px auto;
+      max-width: 400px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #000;
+      font-weight: bold;
+    }
+    
+    select,
+    textarea {
+      width: calc(100% - 22px);
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    
+    </style>
+
+      
         {{-- لاستقبال ال api --}}
     <meta name="_token" content="{{ csrf_token() }}">
-   </head>
-   <body style="background: #596275">
     
 
-    <div>
+    {{-- <div>
         @if ($errors->any())
             <ul>
                 @foreach ($errors->all() as $error)
@@ -19,10 +59,10 @@
                 @endforeach
             </ul>    
         @endif
-    </div>
+    </div> --}}
 
     
-    <h1 class="text-center">Add mark</h1>
+    {{-- <h1 class="text-center">Add mark</h1>
     <a type="button" class="btn btn-primary" href="dashbosrd">back</a>
 
         @if (Session::has('success'))
@@ -40,7 +80,6 @@
     
 
     <form action="{{Route('teacher.addMark')}}" method="POST">
-        {{-- <form action="" method="Get"> --}}
             @csrf
            
     
@@ -121,9 +160,141 @@
         </div>
 
 
-    </form>
+    </form> --}}
 
 
+
+
+
+
+    <form action="{{Route('teacher.addMark')}}" method="POST">
+        <h1>Add Marks</h1>
+
+
+
+
+        @csrf
+           
+    
+        <br>
+        <br>
+
+        
+
+
+
+
+
+
+        <div class="form-group">
+          <label>Majors :</label>
+          <select name="Majors" id="Majors">
+            <option value="" hidden>Select Major</option>
+            @foreach ($Majors as $m)
+                <option value="{{$m->MajorId}}">{{$m->name}}</option>
+            @endforeach
+          </select>
+        </div>
+        @error('name')
+            <p class="invalid-feedback">{{$message}}</p>
+        @enderror
+
+
+
+        <div class="form-group">
+            <label for="division">class :</label>
+        <select name="class" id="class">
+            <option value="" hidden>select Class</option> 
+        </select>
+        </div>
+        @error('class')
+            <p class="invalid-feedback">{{$message}}</p>
+        @enderror 
+
+
+        <div class="form-group">
+            <label for="division">division</label>
+            <select name="division" id="division">
+                <option value="" hidden>select division</option>
+            </select>
+        </div>
+        @error('division')
+            <p class="invalid-feedback">{{$message}}</p>
+        @enderror
+
+
+
+        <div class="form-group">
+          <label>Student  :</label>
+          <select name="student_id" id="student_id">
+            <option value="" hidden>Select Student </option>
+          </select>
+        </div>
+        @error('student_id')
+            <p class="invalid-feedback">{{$message}}</p>
+        @enderror
+
+
+
+
+
+
+
+
+
+        {{-- <label>subject teacher</label>
+        <select name="sub_tea" id="sub_tea">
+            <option >Select subject teacher</option>
+        </select> --}}
+
+        @if (Session::has('error'))
+        <div style="display: flex; align-items: center; justify-content: center; color: red ">
+            <div class="alert alert-danger">{{Session::get('error')}}</div>
+        </div>
+        @endif
+        @if (Session::has('success'))
+        <div style="display: flex; align-items: center; justify-content: center; color: green ">
+            <div class="alert alert-success">{{Session::get('success')}}</div>
+        </div>
+        @endif
+       
+
+        <div class="form-group">
+            <label>Student Teacher :</label>
+            <select name="sub_tea" id="sub_tea">
+            <option value="" hidden>Select</option>
+          </select>
+        </div>
+        @error('name')
+            <p class="invalid-feedback">{{$message}}</p>
+        @enderror
+      
+       <a href="AddMarkT.html"> <button type="submit">Add Mark</button></a>
+      </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 
 
@@ -253,17 +424,8 @@
 
         });
 
-
-
-        
-
-    
-
-
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-</body>
-</html> 
+@endsection
 
 
 

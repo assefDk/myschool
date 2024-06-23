@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>add secretary</title>
+    <title>Edit secretary</title>
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <style>
-        label {
-            margin-right: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('./styles/style.css') }}">
+
 </head>
 <br>
 <body>
 
-    <div>
+    {{-- <div>
         @if ($errors->any())
             <ul>
                 @foreach ($errors->all() as $error)
@@ -22,144 +19,130 @@
                 @endforeach
             </ul>    
         @endif
-    </div>
+    </div> --}}
 
 
 
 
-    <h1>add secretary</h1>
+    <section class="container"> 
+        <header>Edit Secretary</header>
+        
+            <form action="{{Route('admin.updatesecretary',$secretary->secretaryid)}}" method="POST" class="form">
+                @csrf
     
-    <form action="{{Route('admin.updatesecretary',$secretary->secretaryid)}}" method="POST">
-    {{-- <form action="" method="Get"> --}}
-        @csrf
-        <label>first_name</label>
-        <input type="text" name="firstname" id="firstname" value="{{$secretary->firstname}}" class="form-control  @error('firstname') is-invalid @enderror">
-
-        @error('firstname')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
 
 
+                <div class="column">
+                    <div class="input-box">
+                        <label>User Name</label>
+                        <input type="text" name="username" id="username" value="{{$secretary->username}}" class="form-control  @error('username') is-invalid @enderror" placeholder="Enter User Name" />
+                    </div>
+                    @error('username')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
+    
+                    <div class="input-box">
+                        <label>Password</label>
+                        <input type="password" name="password" id="password" value="{{old('password')}}" class="form-control  @error('password') is-invalid @enderror" placeholder="Enter Password" />
+                    </div>
+                    @error('password')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
+                </div>
 
-        <br>
-        <br>
-        <label>last_name</label>
-        <input type="text" name="lastname" id="lastname" value="{{$secretary->lastname}}" class="form-control  @error('lastname') is-invalid @enderror">
-
-        @error('lastname')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
-
-        <br>
-        <br>
-        <label>username</label>
-        <input type="text" name="username" id="username" value="{{$secretary->username}}" class="form-control  @error('username') is-invalid @enderror">
-
-        @error('username')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
-
-
-
-        <br>
-        <br>
-        <label>password</label>
-        <input type="password" name="password" id="password" value="" class="form-control  @error('password') is-invalid @enderror">
-
-        @error('password')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
-
-
-        <br>
-        <label>phone</label>
-        <input type="text" name="phone" id="phone" value="{{$secretary->phone}}" class="form-control  @error('phone') is-invalid @enderror">
-
+                <div class="input-box">
+                    <label>First Name</label>
+                    <input type="text" placeholder="Enter First Name" name="firstname" id="firstname" value="{{$secretary->firstname}}"  class="form-control @error('firstname') is-invalid @enderror"/>
+                    @error('firstname')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
+                </div>
         
-        @error('phone')
-           <p class="invalid-feedback">{{$message}}</p>
-        @enderror
+                <div class="input-box">
+                    <label>Last Name</label>
+                    <input type="text" placeholder="Enter Last Name" name="lastname" id="lastname" value="{{$secretary->lastname}}" class="form-control  @error('lastname') is-invalid @enderror"/>
+                    @error('lastname')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
+                </div>
+
+                <div class="column">
+                    <div class="input-box">
+                        <label>Phone Number</label>
+                        <input type="text" name="phone" id="phone" value="{{$secretary->phone}}" class="form-control  @error('phone') is-invalid @enderror" placeholder="Enter phone number"  />
+                    </div>
+                    @error('phone')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror 
+
+                    <div class="input-box">
+                        <label>Birth Date</label>
+                        <input type="date" name="birthdate" id="birthdate" value="{{$secretary->birthdate}}" class="form-control  @error('birthdate') is-invalid @enderror" placeholder="Enter birth date" />
+                    </div>
+                    @error('birthdate')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror 
+                </div>
 
 
+                <div class="input-box">
+                    <label>Address</label>
+                    <input type="text" name="address" id="address" value="{{$secretary->address}}" class="form-control  @error('address') is-invalid @enderror" placeholder="Enter Address"/>
+                    @error('address')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror 
+                </div>
 
-        <br>
-        <br>
-        <label>address</label>
-        <input type="text" name="address" id="address" value="{{$secretary->address}}" class="form-control  @error('address') is-invalid @enderror">
+                <div class="input-box">
+                    <label>Email</label>
+                    <input type="email" name="email" id="email" value="{{$secretary->email}}" class="form-control  @error('email') is-invalid @enderror" placeholder="Enter Email"/>
+                    @error('email')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror 
+                </div>
 
-        @error('address')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
+                <div class="input-box">
+                    <label>Father Name</label>
+                    <input type="text" name="fathername" id="fathername" value="{{$secretary->fathername}}" class="form-control  @error('fathername') is-invalid @enderror" placeholder="Enter Father Name"/>
+                    @error('fathername')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
+                </div>
 
-        {{-- $2y$12$Ah.vMXTMWN6HEXMRSEy8VOXJ8ZN.l6dJMThaYrWf5Vb... --}}
-
-        <br>
-        <br>
-        <label>e-mail</label>
-        <input type="email" name="email" id="email" value="{{$secretary->email}}" class="form-control  @error('email') is-invalid @enderror">
-
-        @error('email')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
-
-        <br>
-        <br>
-        <label>birthdate</label>
-        <input type="date" name="birthdate" id="birthdate" value="{{$secretary->birthdate}}" class="form-control  @error('birthdate') is-invalid @enderror">
-
-        @error('birthdate')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
-
-
-        <br>
-        <br>
-        <label>fathername</label>
-        <input type="text" name="fathername" id="fathername" value="{{$secretary->fathername}}" class="form-control  @error('fathername') is-invalid @enderror">
-
-        @error('fathername')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
-
-        <br>
-        <br>
-        <label>mothername</label>
-        <input type="text" name="mothername" id="mothername" value="{{$secretary->mothername}}" class="form-control  @error('mothername') is-invalid @enderror">
-
-        @error('mothername')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
-
-        <br>
-        <br>
-        <label>gender</label>
-        <select name="gender" id="gender">  
-            @if($secretary->gender == 'male')    
+                <div class="input-box">
+                    <label>Mother Name</label>
+                    <input type="text" name="mothername" id="mothername" value="{{$secretary->mothername}}" class="form-control  @error('mothername') is-invalid @enderror" placeholder="Enter Mother Name"/>
+                    @error('mothername')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
+                </div>
 
 
-<option value="female" >female</option>
-<option value="male" selected>male</option>
-@else
+                <div class="column">
+                    <div class="column">
+                        <div class="select-box">
+                        <select name="gender" id="gender">
+                            <option hidden>Gender</option>
 
+                            @if($secretary->gender == 'male')    
+                                <option value="female" >Female</option>
+                                <option value="male" selected>Male</option>
+                            @else
+                            <option value="female" selected>female</option>
+                            <option value="male" >male</option>
+                            @endif
 
-<option value="female" selected>female</option>
-<option value="male" >male</option>
-
-
-@endif
-        </select>
-        @error('gender')
-            <p class="invalid-feedback">{{$message}}</p>
-        @enderror
-
-        
-        <br>
-        <br>
-
-        <button class="btn bsb-btn-xl btn-primary py-3" type="submit">add secretary</button>
-
-    </form>
-
+                        </select>
+                        </div>
+                    </div>
+                    @error('gender')
+                        <p class="invalid-feedback">{{$message}}</p>
+                    @enderror 
+                </div>
+                
+                <button type="submit">Edit </button>
+            </form> 
+    </section>
 
 
 

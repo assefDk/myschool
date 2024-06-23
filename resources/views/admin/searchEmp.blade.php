@@ -63,16 +63,18 @@
 
         /* Style the checkmark/indicator */
         .container .checkmark:after {
-        left: 9px;
-        top: 5px;
-        width: 5px;
-        height: 10px;
-        border: solid white;
-        border-width: 0 3px 3px 0;
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
         }
+
+
    </style>
    <body style="background: #596275">
     
@@ -88,11 +90,8 @@
     </div>
 
     
-    <h1 class="text-center">Add Announcment</h1>
-    <a type="button" class="btn btn-primary" href="dashbosrd">backe</a>
-    @if (Session::has('success'))
-        <div class="alert alert-success">{{Session::get('success')}}</div>
-    @endif
+    {{-- <h1 class="text-center">Add Announcment</h1> --}}
+    <a href="{{route('admin.dashboard')}}" class="btn btn-primary">bake</a>
     @if (Session::has('error'))
         <div class="alert alert-danger">{{Session::get('error')}}</div>
     @endif
@@ -103,34 +102,34 @@
     <br>
     <br>
     <br>
+    
+
 
     
 
     
 
-    {{-- <form action="{{Route('')}}" method="POST"> --}}
-    <form action="" method="POST">
+    <form action="{{route('admin.processsearch')}}" method="POST">
         @csrf
-       
 
 
         <label class="container">All
-            <input type="checkbox" name="all" id="all" onchange="checkAll(this)">
+            <input type="checkbox" name="all" id="all" onchange="checkAll(this)" checked>
             <span class="checkmark"></span>
         </label>
         
         <label class="container">Teachers
-            <input type="checkbox" name="teachers" id="teachers">
+            <input type="checkbox" name="teachers" id="teachers" checked>
             <span class="checkmark"></span>
         </label>
         
         <label class="container">Mentors
-            <input type="checkbox" name="mentors" id="mentors">
+            <input type="checkbox" name="mentors" id="mentors" checked>
             <span class="checkmark"></span>
         </label>
         
         <label class="container">secretary
-            <input type="checkbox" name="secretary" id="secretary" >
+            <input type="checkbox" name="secretary" id="secretary" checked>
             <span class="checkmark"></span>
         </label>
 
@@ -141,8 +140,8 @@
         <div style="display: flex; justify-content: center;">
 
             <div class="input-group mb-3 w-50 ">
-                <button class="btn btn-outline-success" type="button" id="button-addon1">Search</button>
-                <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+                <input type="text" name="name" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
             </div>
 
         </div>
@@ -163,7 +162,6 @@
 
 
 
-    <a href="{{route('admin.dashboard')}}" class="btn btn-primary">bake</a>
 
     <div class="table-responsive">
             <table class="table">
@@ -179,9 +177,12 @@
                 <th scope="col">fathername</th>
                 <th scope="col">mothername</th>
                 <th scope="col">gender</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
+                @if (isset($Secretarys))
                 <tr>
                     @foreach ($Secretarys as $s)
                     <tr>
@@ -208,12 +209,118 @@
                     </tr>
                     @endforeach
                 </tr>
+                @endif
 
 
 
+                @if (isset($Mentors))
+                    <tr>
+                        @foreach ($Mentors as $u)
+                        <tr>
+                            <th scope="row">  {{$u->firstname}}</th>
+                            <td scope="row">   {{$u->lastname}} </td>
+                            <td scope="row">   {{$u->username}} </td>
+                            <td scope="row">   {{$u->phone}} </td>
+                            <td scope="row">   {{$u->address}} </td>
+                            <td scope="row">   {{$u->email}} </td>
+                            <td scope="row">   {{$u->birthdate}} </td>
+                            <td scope="row">   {{$u->fathername}} </td>
+                            <td scope="row">   {{$u->mothername}} </td>
+                            <td scope="row">   {{$u->gender}} </td>
+                            <td scope="row"> <a href="{{route('admin.editmentor',$u->mentorid)}}" class="btn btn-success">Edit</a></td>
+                            <td scope="row">
+                            <form action="{{route('admin.destroymentor',$u->mentorid)}}" method="post">
+                                @csrf
+                                @method('delete')
+                                <input class="btn btn-danger" type="submit" value="Delete" >
+                            </form> 
+                            </td>
+                        </tr>    
+                        @endforeach
+                    </tr>
+                @endif
+
+
+
+
+                @if (isset($Teachers))
+                    
+                    <tr>
+                        @foreach ($Teachers as $u)
+                        <tr>
+                            <th scope="row">  {{$u->firstname}}</th>
+                            <td scope="row">   {{$u->lastname}} </td>
+                            <td scope="row">   {{$u->username}} </td>
+                            <td scope="row">   {{$u->phone}} </td>
+                            <td scope="row">   {{$u->address}} </td>
+                            <td scope="row">   {{$u->email}} </td>
+                            <td scope="row">   {{$u->birthdate}} </td>
+                            <td scope="row">   {{$u->fathername}} </td>
+                            <td scope="row">   {{$u->mothername}} </td>
+                            <td scope="row">   {{$u->gender}} </td>
+                            <td scope="row"> <a href="{{route('admin.editteacher',$u->idT)}}" class="btn btn-success">Edit</a></td>
+                            <td scope="row">
+                                <form action="{{route('admin.destroyteacher',$u->idT)}}" method="post">
+                                    @csrf
+                                    @method('delete')
+                            
+                                    <input class="btn btn-danger" type="submit" value="Delete" >
+                                </form> 
+                            </td>
+                        </tr>    
+                        @endforeach
+                    </tr>
+                @endif
+
+
+
+
+
+
+
+
+
+                
+
+
+                @if (isset($rec)) 
+                @if (array_key_exists(0, $rec->toArray()))
+                    @foreach ($rec as $u)
+                        <tr>
+                            <th scope="row">{{ $u->firstname }}</th>
+                            <td scope="row">{{ $u->lastname }}</td>
+                            <td scope="row">{{ $u->username }}</td>
+                            <td scope="row">{{ $u->phone }}</td>
+                            <td scope="row">{{ $u->address }}</td>
+                            <td scope="row">{{ $u->email }}</td>
+                            <td scope="row">{{ $u->birthdate }}</td>
+                            <td scope="row">{{ $u->fathername }}</td>
+                            <td scope="row">{{ $u->mothername }}</td>
+                            <td scope="row">{{ $u->gender }}</td>
+                            <td scope="row">
+                                <a href="{{ route('admin.editteacher', $u->secretaryid) }}" class="btn btn-success">Edit</a>
+                            </td>
+                            <td scope="row">
+                                <form action="{{ route('admin.destroyteacher', $u->secretaryid) }}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <input class="btn btn-danger" type="submit" value="Delete">
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+            @endif
+            
+
+
+
+
+            @if (isset($reco))
+            @if (array_key_exists(0, $reco->toArray()))
 
                 <tr>
-                    @foreach ($Mentors as $u)
+                    @foreach ($reco as $u)
                     <tr>
                         <th scope="row">  {{$u->firstname}}</th>
                         <td scope="row">   {{$u->lastname}} </td>
@@ -225,24 +332,31 @@
                         <td scope="row">   {{$u->fathername}} </td>
                         <td scope="row">   {{$u->mothername}} </td>
                         <td scope="row">   {{$u->gender}} </td>
-                        <td scope="row"> <a href="{{route('admin.editmentor',$u->mentorid)}}" class="btn btn-success">Edit</a></td>
+                        <td scope="row"> <a href="{{route('admin.editteacher',$u->mentorid)}}" class="btn btn-success">Edit</a></td>
                         <td scope="row">
-                        <form action="{{route('admin.destroymentor',$u->mentorid)}}" method="post">
-                            @csrf
-                            @method('delete')
-                            <input class="btn btn-danger" type="submit" value="Delete" >
-                        </form> 
-                        </td>
+                            <form action="{{route('admin.destroyteacher',$u->mentorid)}}" method="post">
+                                @csrf
+                                @method('delete')
+                        
+                                <input class="btn btn-danger" type="submit" value="Delete" >
+                            </form> 
+                        </td> 
                     </tr>    
                     @endforeach
-                </tr>
+                </tr> 
+            @endif
+            @endif
 
 
 
 
 
+
+
+            @if (isset($recor))
+            @if (array_key_exists(0, $recor->toArray()))
                 <tr>
-                    @foreach ($Teachers as $u)
+                    @foreach ($recor as $u)
                     <tr>
                         <th scope="row">  {{$u->firstname}}</th>
                         <td scope="row">   {{$u->lastname}} </td>
@@ -262,10 +376,27 @@
                         
                                 <input class="btn btn-danger" type="submit" value="Delete" >
                             </form> 
-                       </td>
+                        </td> 
                     </tr>    
                     @endforeach
-                </tr>
+                </tr> 
+            @endif
+            @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             </tbody>
             </table>

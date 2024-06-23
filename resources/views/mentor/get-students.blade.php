@@ -9,6 +9,17 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 <body>
+  @if (Session::has('error'))
+  <div style="display: flex; align-items: center; justify-content: center; color: red ">
+      <div class="alert alert-danger">{{Session::get('error')}}</div>
+  </div>
+  @endif
+  @if (Session::has('success'))
+  <div style="display: flex; align-items: center; justify-content: center; color: green ">
+      <div class="alert alert-success">{{Session::get('success')}}</div>
+  </div>
+  @endif
+
     <h1>show students</h1>
 
 

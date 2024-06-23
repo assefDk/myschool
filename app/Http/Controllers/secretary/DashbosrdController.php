@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\secretary;
+use Carbon\Carbon;
 
 use App\Models\Mark;
 use App\Models\Major;
@@ -68,7 +69,61 @@ class DashbosrdController extends Controller
 
 
     public function processAddStudent(Request $request){
+        $subjects=Subject::all()->where('ClassId',$request->class);
+        $sub_tea=Subject_Teacher::all()->where('DivisionId',$request->division);
+        foreach($subjects as $subject)
+        {
+            if($sub_tea->where('idS',$subject->idS)->first()==null)
+            {$messag="sorry but the subject " .$subject->sub_name ." is not connected to a teacher in this division";
+            return redirect()->route("secretary.addStudent")->with('error',$messag);}
+           //cheking if there is a subject that is not independent and it needs to add subject belonged to it to complete max
+           if (app('App\Http\Controllers\mentor\DashbosrdController')->isSeperated($subject->idS))
+           {
+            $seperated=Subject::all()->where('belongs_to',$subject->idS);
+            $maxs=0;
+            $homeworks=0;
+            $mids=0;
+            $in_classs=0;
+            $finals=0;
+            foreach($seperated as $sep)
+            {
+                $maxs+=$sep->max;
+                $homeworks+=$sep->max_homework;
+                $mids+=$sep->max_mid;
+                $in_classs+=$sep->max_in_class;
+                $finals+=$sep->max_final;
 
+
+            }
+              if($maxs<$subject->max
+                &&$homeworks<$subject->max_homework 
+                &&$mids<$subject->max_mid 
+                &&$in_classs<$subject->max_in_class 
+                &&$finals<$subject->max_final 
+                ) {return redirect()->route("secretary.addStudent")->with('error',"sorry but the subject : " .$subject->sub_name ." needs to be seperated once or so to proceed"); }
+  
+              
+           }   
+        }
+
+
+
+        $checkdate = Carbon::parse($request->birthdate);
+        
+        $now = Carbon::now();
+        $valid=false;
+        if ($checkdate->diffInYears($now) >= 5 && (!preg_match('/[0-9]/', $request->firstName))
+        && (!preg_match('/[0-9]/', $request->lastName))
+        &&(!preg_match('/[0-9]/', $request->fathernName))
+        &&(!preg_match('/[0-9]/', $request->motherName))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->firstName))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->lastName))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->fathernName))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->motherName))
+        
+           ){ $valid=true;}
+        
+        
         $validatot = Validator::make($request->all(), [
             'username' => 'required|unique:students',
             'password' => 'required',
@@ -84,7 +139,7 @@ class DashbosrdController extends Controller
 
         ]);
 
-        if($validatot->passes()){
+        if($validatot->passes()&&$valid){
             $student = new Student();
             $student->username = $request->username;
             $student->password = Hash::make($request->password); 
@@ -133,6 +188,8 @@ class DashbosrdController extends Controller
             return redirect()->route("secretary.dashbosrd")->with('success','Added successfully Student');
 
         }else{
+            if (!$valid)
+            return redirect()->route("secretary.addStudent")->with('error','please dont insert special symbols');
 
             return redirect()->route("secretary.addStudent")->withInput()->withErrors($validatot);
         }
@@ -275,7 +332,18 @@ class DashbosrdController extends Controller
     }
 
     public function SeperatingSubject(Request $request){
+        $valid=false;
+        if ((!preg_match('/[0-9]/', $request->sub_name))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->sub_name))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->max))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->min))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->max_mid))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->max_in_class))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->max_homework))
+        &&(!preg_match('/[!@#$%^&*()-_=+{}:;\|~`?.>,<\/\'"[\]]/', $request->max_final))
         
+           ){ $valid=true;}
+
         $validatot = Validator::make($request->all(), [
             'sub_name' => 'required',
             'max' => 'required',
@@ -285,10 +353,107 @@ class DashbosrdController extends Controller
             'max_homework' => 'required',
             'max_final' => 'required',
         ]);
-    
+
+
+       
+
+
+
+
+        $original=Subject::all()->find($request->Subject);
+       
+
+
+
+
+
+        $qu=DB::select('select sum(max) maxe , sum(max_mid) mide , sum(max_homework) homeworke , sum(max_in_class) in_classe , sum(max_final) finale
+         from subjects where belongs_to = ?',[$request->Subject]);
+        foreach ($qu as $q)
+        {
+            $maxe=$q->maxe;
+            $mide=$q->mide;
+            $homeworke=$q->homeworke;
+            $in_classe=$q->in_classe;
+            $finale=$q->finale;
+            
+        }
+        
+        $lmaxe=$maxe+$request->max;
+        $lmide=$mide+$request->max_mid;
+        $lhomeworke=$homeworke+$request->max_homework;
+        $lin_classe=$in_classe+$request->max_in_class;
+        $lfinale=$finale+$request->max_final;
+        $check=false;
+        $sep=false;
+        $checksep=false;
+        
+        // return [[$lmaxe<=$original->max]
+        // ,[$lmide,$original->max_mid]
+        // ,[$lhomeworke,$original->max_homework]
+        // ,[$lin_classe==$original->max_in_class]
+        // ,[$lfinale<=$original->max_final]];
+
+        if  ($maxe==$original->max
+        &&$mide==$original->max_mid
+        &&$homeworke==$original->max_homework
+        &&$in_classe==$original->max_in_class
+        &&$finale==$original->max_final)
+        {
+            //cant seperate this subject any more
+            return redirect()->route("secretary.dashbosrd")->with('error','you cant seperate this subject any more');
+
+
+        }
+        else
+        {
+            if($lmaxe<=$original->max
+        &&$lmide<=$original->max_mid
+        &&$lhomeworke<=$original->max_homework
+        &&$lin_classe<=$original->max_in_class
+        &&$lfinale<=$original->max_final)
+        {
+
+            //can proceed
+            $check=true;
+            //can proceed but cant seperate any more
+                if($lmaxe==$original->max
+            &&$lmide==$original->max_mid
+            &&$lhomeworke==$original->max_homework
+            &&$lin_classe==$original->max_in_class
+            &&$lfinale==$original->max_final)
+            {
+                $checksep=true;
+                
+            }
+            
+
+        }
+        else
+        {
+            //cant proceed but you can seperate this subject
+            $canmax=((double)$original->max - (double)$maxe);
+            $canmid=((double)$original->max_mid-(double)$mide);
+             $canhomework=((double)$original->max_homework-(double)$homeworke);
+             $canin_class=((double)$original->max_in_class-(double)$in_classe);
+             $canfinal=((double)$original->max_final-(double)$finale);
+        
+        $messag="cant proceed with this input but can with the next and below .. \n max : " .$canmax
+        ."\n max_mid :" .$canmid
+        ."\n max_homework :" .$canhomework
+        ."\n max_in_class :" .$canin_class
+        ."\n max_final :" .$canfinal
+        ; 
+        return redirect()->route("secretary.ShowSeperatingSubject")->with('error',$messag);
+
+           
+        }
+    }
+
+
         $sum=$request->max_mid+$request->max_in_class+$request->max_homework+$request->max_final;
 
-        if($validatot->passes() && $sum==$request->max){
+        if($validatot->passes() && $sum==$request->max && $check&&$valid){
             $subject = new Subject();
             $subject->sub_name = $request->sub_name; 
             $subject->max = $request->max; 
@@ -302,13 +467,21 @@ class DashbosrdController extends Controller
             $subject->save();
 
 
-            // return 'success';
-            // return redirect()->route("secretary.addSubject")->withInput()->withErrors($validatot);
-            return redirect()->route("secretary.dashbosrd")->with('success','Added successfully Subject');
+            if ($checksep)
+            return redirect()->route("secretary.dashbosrd")->with('success','seperated successfully but you cant seperate this subject any more');
+
+            
+            return redirect()->route("secretary.dashbosrd")->with('success','seperated successfully');
         }else{
-            return redirect()->route("secretary.addSubject")->withInput()->withErrors($validatot);
+            if (!$valid)
+            return redirect()->route("secretary.dashbosrd")->with('error','please dont insert special symbols');
+
+
+
+            return redirect()->route("secretary.dashbosrd")->withInput()->withErrors($validatot);
         }
     }
+
 
 
 
@@ -366,7 +539,10 @@ class DashbosrdController extends Controller
         $st->idT = $request->Teacher;
         $st->idS = $request->Subjects;
         $st->DivisionId = $request->division;
+        $tst=Subject_Teacher::all()->where('idT',$request->Teacher)->where('idS',$request->Subjects)->where('DivisionId',$request->division)->first();
+        if ($tst==null)
         $st->save();
+        else return 'هذا الصف مربوط ب هذا الاستاذ و  بهذه المادة بالفعل';
 
 
         return 'تم بنجاح';
@@ -374,7 +550,6 @@ class DashbosrdController extends Controller
     catch (\Exception $e) {
             return 'حدث خطأ: ' . $e->getMessage();
     }
-
 
 
 
@@ -424,6 +599,11 @@ class DashbosrdController extends Controller
         ');
 
         return view('secretary.show-announcment' ,compact('Announcments'));
+    }
+
+
+    public function ProfileSecretary(){
+        return view('secretary.profile');
     }
 
 

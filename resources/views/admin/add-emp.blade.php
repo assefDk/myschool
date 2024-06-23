@@ -1,16 +1,12 @@
-
-
-
+    
 @extends('components.layout')
-@section('title','Add mentor')
+@section('title','Add Secretary')
 
 @section('content')
 
 
 
-
-
-
+    
 {{-- 
     <div>
         @if ($errors->any())
@@ -19,19 +15,39 @@
                 <li>{{$error}}</li>
                 @endforeach
             </ul>    
-        @endif
-    </div> --}}
+            @endif
+        </div> --}}
+
+        
+        
 
 
 
-    @section('content')
+        @section('content')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
     <link rel="stylesheet" href="{{ asset('./styles/style.css') }}">
 <section class="container"> 
-    <header>Add Mentor</header>
-        <form action="{{Route('admin.processaddmentor')}}" method="POST" class="form">
+    <header>Add employers</header>
+        <form action="{{Route('admin.processaddEmp')}}" method="POST" class="form">
             @csrf
 
-            {{-- new --}}
             <div class="column">
                 <div class="input-box">
                     <label>User Name</label>
@@ -50,7 +66,6 @@
                 @enderror
             </div>
 
-            {{-- new --}}
             <div class="input-box">
                 <label>First Name</label>
                 <input type="text" placeholder="Enter First Name" name="firstname" id="firstname" value="{{old('firstname')}}" class="form-control @error('firstname') is-invalid @enderror"/>
@@ -59,7 +74,6 @@
                 @enderror
             </div>
 
-            {{-- new --}}
             <div class="input-box">
                 <label>Last Name</label>
                 <input type="text" placeholder="Enter Last Name" name="lastname" id="lastname" value="{{old('lastname')}}" class="form-control  @error('lastname') is-invalid @enderror"/>
@@ -68,7 +82,6 @@
                 @enderror
             </div>
 
-            {{-- new --}}
             <div class="column">
                 <div class="input-box">
                     <label>Phone Number</label>
@@ -87,7 +100,6 @@
                 @enderror 
             </div>
 
-            {{-- new --}}
             <div class="input-box">
                 <label>Address</label>
                 <input type="text" name="address" id="address" value="{{old('address')}}" class="form-control  @error('address') is-invalid @enderror" placeholder="Enter Address"/>
@@ -96,7 +108,6 @@
                 @enderror 
             </div>
     
-            {{-- new --}}
             <div class="input-box">
                 <label>Email</label>
                 <input type="email" name="email" id="email" value="{{old('email')}}" class="form-control  @error('email') is-invalid @enderror" placeholder="Enter Email"/>
@@ -105,7 +116,6 @@
                 @enderror 
             </div>
 
-            {{-- new --}}
             <div class="input-box">
                 <label>Father Name</label>
                 <input type="text" name="fathername" id="fathername" value="{{old('fathername')}}" class="form-control  @error('fathername') is-invalid @enderror" placeholder="Enter Father Name"/>
@@ -114,7 +124,6 @@
                 @enderror
             </div>
 
-            {{-- new --}}
             <div class="input-box">
                 <label>Mother Name</label>
                 <input type="text" name="mothername" id="mothername" value="{{old('mothername')}}" class="form-control  @error('mothername') is-invalid @enderror" placeholder="Enter Mother Name"/>
@@ -123,7 +132,6 @@
                 @enderror
             </div>
 
-            {{-- new --}}
             <div class="column">
                 <div class="column">
                     <div class="select-box">
@@ -139,8 +147,36 @@
                 @enderror 
             </div>
             
+
+                    <label for="">mentor</label>
+                    <input type="checkbox" class='form-control-checkbox' name="mentor">
+                    <label for="">secrutary</label>
+                    <input type="checkbox" class='form-control-checkbox' name="secrutary">
+                    <label for="">techer</label>
+                    <input type="checkbox" class='form-control-checkbox' name="techer">
             <button type="submit">Add</button>
         </form> 
 </section>
 
-@endsection
+
+
+
+
+<script>
+    formcControlCheckbox = [...document.querySelectorAll('.form-control-checkbox')];
+    formcControlCheckbox.forEach((onebyone) => {
+        onebyone.addEventListener('click', function() {
+            formcControlCheckbox.forEach((onebyone) => {
+                onebyone.checked = false;
+            })
+
+            onebyone.checked = true;
+        })
+    })
+
+</script>
+
+
+    @endsection
+
+
